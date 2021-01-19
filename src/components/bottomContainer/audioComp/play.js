@@ -1,5 +1,5 @@
 import React from "react";
-import * as Styled from "./style";
+import * as Styled from "./audioStyle";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 
 export const Play = React.memo((props) => {

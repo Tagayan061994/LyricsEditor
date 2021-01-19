@@ -12,7 +12,7 @@ export const getAudioUrl = createSelector(
     getAudioConfigs,
     (audioConfigs) => audioConfigs.audioUrl
 );
-export const getChunkStart = createSelector(
+export const getAudioChunks = createSelector(
     getAudioConfigs,
     (audioConfigs) => audioConfigs.audioChunks
 );

@@ -27,16 +27,7 @@ export const audioConfigs = produce((draft, action) => {
   switch (action.type) {
     case "SET_TYPE":
       draft.type = action.payload;
+    case ("ADD_AUDIO_CHUNKS_ITEM"):
+      draft.audioChunks.push(action.payload);
   }
 }, initialState);
-
-// export const audioConfigs = produce(state = initialState, (draft, action) => {
-//     switch (action.type) {
-//         case "SET_TYPE":
-//             draft.type
-//             return {
-//                 ...state,
-//                 type: action.payload,
-//             };
-//     }
-// });

@@ -11,3 +11,16 @@ export const setChunkStart = (type) => {
         payload: type,
     };
 };
+
+export const getAudioChunks = () => {
+    return {
+        type: "GET_AUDIO_CHUNKS",
+    };
+};
+
+export const addAudioChunksItem = (item) => {
+    return {
+        type: "ADD_AUDIO_CHUNKS_ITEM",
+        payload: item,
+    };
+};
