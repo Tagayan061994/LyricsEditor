@@ -16,6 +16,7 @@ body {
 }
 
 #root {
+  height: 100%;
   padding-top: 0%;
 }
 
@@ -40,4 +41,13 @@ input[type="range"] {
 input[type="time"]::-webkit-calendar-picker-indicator {
   background: none;
   display: none;
+}
+
+.gsap {
+  color: green;
+}
+
+.ancient {
+  font-size: 14px;
+  color: #555;
 }

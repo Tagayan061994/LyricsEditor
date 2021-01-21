@@ -15,20 +15,19 @@ export const Icon = styled(FontAwesomeIcon)`
   width: 15px;
   height: 15px;
   color: rgba(84, 95, 126, 1);
-  align-self:center;
+  align-self: center;
 `;
 
-export const ToggleWrapper = styled.div`
+export const MenuWrapper = styled.div`
   padding: 17px 25px;
-  /* border-top: 1px solid rgba(112, 112, 112, 0.15);
-  border-bottom: 1px solid rgba(112, 112, 112, 0.15); */
+  height: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
 `;
 
-export const IconTextWrapper = styled.div`
+export const IconText = styled.div`
   width: 70%;
   display: flex;
 `;

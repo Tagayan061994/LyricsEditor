@@ -2,17 +2,16 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const AudioContainer = styled.div`
-  width: 98%;
+  width: 100%;
+  transform: scale(1, 1);
   background-color: #ffffff;
 `;
 export const Player = styled.audio`
   width: 100%;
 `;
-
 export const PauseIcon = styled(FontAwesomeIcon)`
   color: black;
 `;
-
 export const PlayIcon = styled(FontAwesomeIcon)`
   color: black;
 `;
@@ -20,14 +19,12 @@ export const UndoRedoIcon = styled(FontAwesomeIcon)`
   color: black;
   transform: scale(1,1);
 `;
-
 export const BarContainer = styled.div`
   user-select: none;
   width: 100%;
   display: flex;
   align-items: center;
 `;
-
 export const PauseButton = styled.button`
   width: fit-content;
   align-self: center;
@@ -52,7 +49,6 @@ export const PauseButton = styled.button`
     color: black;
   }
 `;
-
 export const PlayButton = styled.button`
   width: fit-content;
   align-self: center;
@@ -76,7 +72,6 @@ export const PlayButton = styled.button`
     color: black;
   }
 `;
-
 export const UndoButton = styled.button`
   width: fit-content;
   align-self: center;
@@ -94,7 +89,6 @@ export const UndoButton = styled.button`
     color: black;
   }
 `;
-
 export const UndoWrapper = styled.div`
   display:flex;
   align-self:center;
@@ -111,7 +105,6 @@ export const BarTimeSpan = styled.span`
   font-size: 20px;
   margin-left: 5%;
 `;
-
 export const BarProgress = styled.div`
   flex: 1;
   height: 15px;
@@ -123,7 +116,6 @@ export const BarProgress = styled.div`
       ? `linear-gradient(to right, rgba(86, 144, 255, 1) ${props.curPercentage}%, rgba(86, 144, 255, 0.1) 0)`
       : "rgba(27, 96, 247, 0.24)"};
 `;
-
 export const BarProgressKnob = styled.span`
   position: relative;
   height: 15px;
@@ -131,12 +123,10 @@ export const BarProgressKnob = styled.span`
   background-color: rgba(86, 144, 252, 1);
   left:${(props) => props.curPercentage ? `${props.curPercentage}%` : "0%"} ;
 `;
-
 export const PlayPauseWrapper = styled.div`
   display: flex;
   justify-content:center;
 `;
-
 export const Controls = styled.div`
     flex-grow: 1;
     margin: 0 20px;

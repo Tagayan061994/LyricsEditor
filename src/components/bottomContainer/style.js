@@ -1,9 +1,10 @@
 import styled from "styled-components";
 
 export const BottomContainer = styled.div`
-  border: 1px solid rgba(112, 112, 112, 0.15);
-  padding: 18px 0;
+  padding: 18px 13px;
   display: flex;
+  flex-direction:column;
   justify-content: center;
   background-color: #ffffff;
+  border: 1px solid rgba(112, 112, 112, 0.15);
 `;

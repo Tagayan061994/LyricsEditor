@@ -24,3 +24,10 @@ export const addAudioChunksItem = (item) => {
         payload: item,
     };
 };
+
+export const deleteAudioChunksItem = (id) => {
+    return {
+        type: "DELETE_AUDIO_CHUNKS_ITEM",
+        payload: id
+    }
+}

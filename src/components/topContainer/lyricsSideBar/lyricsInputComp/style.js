@@ -2,13 +2,14 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const LyricsInputWrapper = styled.div`
-  padding: 14px 15px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background-color: #ffffff;
-  box-shadow: 0px 6px 12px #0052e01a;
+  padding: 14px 15px;
   border-radius: 10px;
+  margin-bottom: 12px;
+  flex-direction: column;
+  background-color: #ffffff;
+  justify-content: space-between;
+  box-shadow: 0px 6px 12px #0052e01a;
 `;
 export const DeleteIcon = styled(FontAwesomeIcon)`
   align-self: flex-end;
@@ -16,31 +17,33 @@ export const DeleteIcon = styled(FontAwesomeIcon)`
   cursor: pointer;
 `;
 export const LyricsInput = styled.input`
-  padding-top: 9px;
-  padding-left: 15px;
-  padding-bottom: 9px;
-  background: #ffffff 0% 0% no-repeat padding-box;
-  border: 1px solid #dde3f0;
-  border-radius: 5px;
+  color: #252e48;
+  font-size: 14px;
   margin-top: 10px;
+  border-radius: 5px;
+  padding: 9px 0 8px 15px;
+  border: 1px solid #dde3f0;
+  background: #ffffff 0% 0% no-repeat padding-box;
 `;
 export const MinuteInput = styled.input`
   padding: 8px;
-  background: #ffffff 0% 0% no-repeat padding-box;
-  border: 1px solid rgba(221, 227, 240, 1);
+  color: #252e48;
+  font-size: 12px;
   border-radius: 5px;
+  border: 1px solid rgba(221, 227, 240, 1);
+  background: #ffffff 0% 0% no-repeat padding-box;
 `;
 
 export const StartEndWrapper = styled.div`
-  margin-top: 16px;
   display: flex;
-  justify-content:space-between;
+  margin-top: 16px;
+  justify-content: space-between;
 `;
 
 export const StartEndSpan = styled.span`
   color: #545f7e;
   font-size: 12px;
-  align-self:center;
+  align-self: center;
 `;
 
 export const Line = styled.hr`

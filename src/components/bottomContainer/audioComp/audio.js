@@ -16,6 +16,7 @@ export const AudioPlayer = React.memo(() => {
     curTime,
     duration,
     playing,
+    setCurTime,
     setPlaying,
     setClickedTime,
   } = useAudioPlayer();
@@ -28,13 +29,13 @@ export const AudioPlayer = React.memo(() => {
       </Styled.Player>
       <Styled.Controls>
         <Styled.PlayPauseWrapper>
-          <Undo />
+          <Undo handleClick={() => setCurTime(curTime - 1)} />
           {playing ? (
             <Pause handleClick={() => setPlaying(false)} />
           ) : (
-            <Play handleClick={() => setPlaying(true)} />
-          )}
-          <Redo />
+              <Play handleClick={() => setPlaying(true)} />
+            )}
+          <Redo handleClick={() => setCurTime(curTime + 1)} />
           <Styled.BarTimeSpan>{currentDuration}</Styled.BarTimeSpan>
         </Styled.PlayPauseWrapper>
         <Bar
