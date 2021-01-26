@@ -1,7 +1,8 @@
 .app {
-  height: 100%;
   text-align: center;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
   border-top: 1px solid rgba(112, 112, 112, 0.15);
 }

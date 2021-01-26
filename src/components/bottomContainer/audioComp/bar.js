@@ -12,7 +12,7 @@ export const Bar = React.memo((props) => {
     return moment
       .duration(duration, "seconds")
       .format("hh:mm:ss", { trim: false });
-  };
+  };  
 
   const calcClickedTime = (e) => {
     const clickPositionInPage = e.pageX;
@@ -47,7 +47,7 @@ export const Bar = React.memo((props) => {
       <Styled.BarProgress
         className="bar__progress"
         curPercentage={curPercentage}
-        onMouseDown={(e) => handleTimeDrag(e)}
+        onMouseDown={handleTimeDrag}
       >
         <Styled.BarProgressKnob curPercentage={curPercentage} />
       </Styled.BarProgress>

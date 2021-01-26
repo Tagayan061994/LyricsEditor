@@ -3,7 +3,7 @@ import * as Styled from "./style";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getAudioChunks } from "../../../redux/selectors";
-import { LuricsInputWrapper } from "./lyricsInputComp/index.js";
+import { LyricsInputWrapper } from "./lyricsInputComp/index.js";
 
 export const SubTitleSideBar = React.memo(() => {
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ export const SubTitleSideBar = React.memo(() => {
   return (
     <Styled.LyricsSideBarWrapper>
       {chunksData.map((data, i) => (
-        <LuricsInputWrapper key={i} data={data} id={i} />
+        <LyricsInputWrapper key={i} data={data} id={new Date()} />
       ))}
       <Styled.AddButton
         onClick={() => dispatch({ type: "ADD_AUDIO_CHUNKS_ITEM" })}

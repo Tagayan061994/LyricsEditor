@@ -3,37 +3,37 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const TimeLineWrapper = styled.div`
   width: 100%;
-  height:41px;
-  position:relative;
+  height: 41px;
+  position: relative;
   margin-top: 13px;
-  transform: scale(1, 1);   
-  background-color:rgba(185, 207, 255, 1);
+  transform: scale(1, 1);
+  background-color: rgba(185, 207, 255, 1);
 `;
 
 export const RangeContainer = styled.div`
   background-color: rgba(118, 109, 232, 0.4);
-  width:20%;
-  height:100%;
-  position:absolute;
-  left: ${({ styles }) => styles ? `${styles.left}px` : "10px"};
+  width: ${({ resizeState }) => resizeState.isDragging ? `${resizeState.currentWidth + 100}px` : null} 20%;
+  height: 100%;
   overflow: visible;
-  display:flex;
-  justify-content:space-between;
+  display: flex;
   cursor: move;
+  position: absolute;
+  justify-content: space-between;
+  left: ${({ styles }) => (styles ? `${styles.left}px` : "10px")};
 `;
-
 
 export const ResizeKnobs = styled.div`
   width: 5%;
   height: 100%;
   background-color: rgba(118, 109, 232, 1);
-  display:flex;
+  display: flex;
+  cursor: e-resize;
 `;
 
 export const Icon = styled(FontAwesomeIcon)`
   width: 15px;
   height: 15px;
-  color: #FFFFFF;
-  align-self:center;
+  color: #ffffff;
+  align-self: center;
   align-self: center;
 `;

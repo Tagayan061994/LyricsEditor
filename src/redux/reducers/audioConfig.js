@@ -28,7 +28,7 @@ export const audioConfigs = produce((draft, action) => {
     case "SET_TYPE":
       draft.type = action.payload;
       break;
-    case ("ADD_AUDIO_CHUNKS_ITEM"):
+    case "ADD_AUDIO_CHUNKS_ITEM":
       draft.audioChunks.push(initialState.audioChunks[0]);
       break;
     case "DELETE_AUDIO_CHUNKS_ITEM":

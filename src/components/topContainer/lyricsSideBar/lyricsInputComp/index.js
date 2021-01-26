@@ -4,12 +4,13 @@ import { useDispatch } from "react-redux";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { parseSecondsToHms } from "../../../../common/parseSecondsToHms";
 
-export const LuricsInputWrapper = React.memo(({ data, id }) => {
+export const LyricsInputWrapper = React.memo(({ data, id }) => {
   let {
     start,
     end,
     textParams: { text },
   } = data;
+
   const dispatch = useDispatch();
   const [itemData, setItemData] = useState({});
   const [inputVal, setinputVal] = useState(text ? text : "");
@@ -24,12 +25,13 @@ export const LuricsInputWrapper = React.memo(({ data, id }) => {
     setinputVal(e.target.value);
   };
 
-  const handleChangeTime = (e, inputName) => {
-    if (inputName === "start") {
-      setStartTimeVal(parseSecondsToHms(e.target.value));
-    } else if (inputName === "end") {
-      setEndTimeVal(parseSecondsToHms(e.target.value));
-    }
+  const handleChangeEndInput = (e) => {
+    console.log(e.target.value);
+    setEndTimeVal(parseSecondsToHms(e.target.value));
+  };
+
+  const handleChangeStartInput = (e) => {
+    setStartTimeVal(parseSecondsToHms(e.target.value));
   };
 
   const deleteItem = () => {
@@ -49,7 +51,7 @@ export const LuricsInputWrapper = React.memo(({ data, id }) => {
       <Styled.DeleteIcon size="lg" icon={faTrash} onClick={deleteItem} />
       <Styled.LyricsInput
         value={inputVal}
-        onChange={(e) => handleChangeText(e)}
+        onChange={handleChangeText}
       ></Styled.LyricsInput>
       <Styled.StartEndWrapper>
         <Styled.StartEndSpan>Start</Styled.StartEndSpan>
@@ -57,7 +59,7 @@ export const LuricsInputWrapper = React.memo(({ data, id }) => {
           type="time"
           step="2"
           value={startTimeVal}
-          onChange={(e) => handleChangeTime(e, "start")}
+          onChange={handleChangeStartInput}
         />
         <Styled.Line />
         <Styled.StartEndSpan>End</Styled.StartEndSpan>
@@ -65,7 +67,7 @@ export const LuricsInputWrapper = React.memo(({ data, id }) => {
           type="time"
           step="2"
           value={endTimeVal}
-          onChange={(e) => handleChangeTime(e, "end")}
+          onChange={handleChangeEndInput}
         />
       </Styled.StartEndWrapper>
     </Styled.LyricsInputWrapper>

@@ -33,8 +33,8 @@ export const AudioPlayer = React.memo(() => {
           {playing ? (
             <Pause handleClick={() => setPlaying(false)} />
           ) : (
-              <Play handleClick={() => setPlaying(true)} />
-            )}
+            <Play handleClick={() => setPlaying(true)} />
+          )}
           <Redo handleClick={() => setCurTime(curTime + 1)} />
           <Styled.BarTimeSpan>{currentDuration}</Styled.BarTimeSpan>
         </Styled.PlayPauseWrapper>

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const LyricsSideBarWrapper = styled.div`
   max-width: 339px;
-  width: 25%;
+  flex: 1 1 auto;
   display: flex;
   padding-top: 73px;
   padding-left: 8px;

@@ -11,11 +11,13 @@ export const LyricsInputWrapper = styled.div`
   justify-content: space-between;
   box-shadow: 0px 6px 12px #0052e01a;
 `;
+
 export const DeleteIcon = styled(FontAwesomeIcon)`
   align-self: flex-end;
   color: gray;
   cursor: pointer;
 `;
+
 export const LyricsInput = styled.input`
   color: #252e48;
   font-size: 14px;
@@ -25,6 +27,7 @@ export const LyricsInput = styled.input`
   border: 1px solid #dde3f0;
   background: #ffffff 0% 0% no-repeat padding-box;
 `;
+
 export const MinuteInput = styled.input`
   padding: 8px;
   color: #252e48;

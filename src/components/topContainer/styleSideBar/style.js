@@ -3,12 +3,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const StyleSideBarWrapper = styled.div`
   max-width: 243px;
-  width: 18%;
+  flex: 1 1 auto;
   background: #ffffff 0% 0% no-repeat padding-box;
   border-right: 1px solid rgba(112, 112, 112, 0.15);
   box-shadow: 0px 6px 12px #0052e029;
-  padding-top: 93px;
-  padding-bottom: 238px;
+  padding: 91px 0px 210px 0px;
+  div + div {
+    border-bottom: 1px solid rgba(112, 112, 112, 0.15);
+    border-top: 1px solid rgba(112, 112, 112, 0.15);
+  }
 `;
 
 export const Icon = styled(FontAwesomeIcon)`
@@ -19,17 +22,17 @@ export const Icon = styled(FontAwesomeIcon)`
 `;
 
 export const MenuWrapper = styled.div`
-  padding: 17px 25px;
-  height: auto;
+  padding: 26px 29px 21px 18px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   cursor: pointer;
 `;
 
-export const IconText = styled.div`
-  width: 70%;
+export const IconTextWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
+  margin-right: 56px;
 `;
 
 export const TextSpan = styled.span`
@@ -37,5 +40,5 @@ export const TextSpan = styled.span`
   font-size: 15px;
   color: rgba(37, 46, 72, 1);
   font-weight: Medium;
-  margin-left: 17px;
+  margin-left:18px;
 `;

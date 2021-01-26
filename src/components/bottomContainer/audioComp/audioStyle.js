@@ -105,6 +105,7 @@ export const BarTimeSpan = styled.span`
   font-size: 20px;
   margin-left: 5%;
 `;
+
 export const BarProgress = styled.div`
   flex: 1;
   height: 15px;
@@ -116,6 +117,7 @@ export const BarProgress = styled.div`
       ? `linear-gradient(to right, rgba(86, 144, 255, 1) ${props.curPercentage}%, rgba(86, 144, 255, 0.1) 0)`
       : "rgba(27, 96, 247, 0.24)"};
 `;
+
 export const BarProgressKnob = styled.span`
   position: relative;
   height: 15px;
@@ -123,13 +125,14 @@ export const BarProgressKnob = styled.span`
   background-color: rgba(86, 144, 252, 1);
   left:${(props) => props.curPercentage ? `${props.curPercentage}%` : "0%"} ;
 `;
+
 export const PlayPauseWrapper = styled.div`
   display: flex;
   justify-content:center;
 `;
+
 export const Controls = styled.div`
     flex-grow: 1;
-    margin: 0 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
