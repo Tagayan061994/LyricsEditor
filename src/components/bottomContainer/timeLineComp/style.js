@@ -12,27 +12,31 @@ export const TimeLineWrapper = styled.div`
 
 export const RangeContainer = styled.div`
   background-color: rgba(118, 109, 232, 0.4);
-  width: ${({ resizeState }) => resizeState.isDragging ? `${resizeState.currentWidth + 100}px` : null} 20%;
+  width: 20%;
   height: 100%;
   overflow: visible;
   display: flex;
   cursor: move;
   position: absolute;
   justify-content: space-between;
-  left: ${({ styles }) => (styles ? `${styles.left}px` : "10px")};
+  left: ${({ styles }) => (styles ? `${styles.left}px` : "50px")};
 `;
 
 export const ResizeKnobs = styled.div`
+  max-width: 10px;
+  min-width: 10px;
   width: 5%;
   height: 100%;
   background-color: rgba(118, 109, 232, 1);
   display: flex;
+  justify-content:center;
+  align-items: center;
   cursor: e-resize;
 `;
 
 export const Icon = styled(FontAwesomeIcon)`
-  width: 15px;
-  height: 15px;
+  width: 10px;
+  height: 10px;
   color: #ffffff;
   align-self: center;
   align-self: center;

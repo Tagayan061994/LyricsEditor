@@ -5,13 +5,6 @@ export const setType = (type) => {
   };
 };
 
-export const setChunkStart = (type) => {
-  return {
-    type: "SET_CHUNK_START",
-    payload: type,
-  };
-};
-
 export const getAudioChunks = () => {
   return {
     type: "GET_AUDIO_CHUNKS",
@@ -29,5 +22,18 @@ export const deleteAudioChunksItem = (id) => {
   return {
     type: "DELETE_AUDIO_CHUNKS_ITEM",
     payload: id,
+  };
+};
+
+export const setChunkStart = (type) => {
+  return {
+    type: "SET_CHUNK_START",
+    payload: type,
+  };
+};
+
+export const getAudioDuration = () => {
+  return {
+    type: "GET_AUDIO_DURATION",
   };
 };
