@@ -25,6 +25,7 @@ export const RangeContainer = styled.div`
 export const ResizeKnobs = styled.div`
   max-width: 10px;
   min-width: 10px;
+  flex: 1;
   width: 5%;
   height: 100%;
   background-color: rgba(118, 109, 232, 1);
@@ -32,6 +33,10 @@ export const ResizeKnobs = styled.div`
   justify-content:center;
   align-items: center;
   cursor: e-resize;
+`;
+
+export const RangeDrag = styled.div`
+ flex: 2;
 `;
 
 export const Icon = styled(FontAwesomeIcon)`
