@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { getAudioChunks } from "../../../redux/selectors";
 import { LyricsInputWrapper } from "./lyricsInputComp/index.js";
+import { addAudioChunksItem } from "../../../redux/actions/audioActions";
 
 export const SubTitleSideBar = React.memo(() => {
   const dispatch = useDispatch();
@@ -11,11 +12,11 @@ export const SubTitleSideBar = React.memo(() => {
 
   return (
     <Styled.LyricsSideBarWrapper>
-      {chunksData.map((data, i) => (
-        <LyricsInputWrapper key={i} data={data} id={new Date()} />
+      {chunksData.map((data) => (
+        <LyricsInputWrapper key={Math.random()} data={data} id={Math.random()} />
       ))}
       <Styled.AddButton
-        onClick={() => dispatch({ type: "ADD_AUDIO_CHUNKS_ITEM" })}
+        onClick={() => dispatch(addAudioChunksItem())}
       >
         + add sub
       </Styled.AddButton>

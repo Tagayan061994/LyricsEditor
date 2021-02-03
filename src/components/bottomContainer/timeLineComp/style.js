@@ -12,14 +12,14 @@ export const TimeLineWrapper = styled.div`
 
 export const RangeContainer = styled.div`
   background-color: rgba(118, 109, 232, 0.4);
-  width: 20%;
+  width: ${props => props.withInPercent ? `${props.withInPercent}%` : 0};
   height: 100%;
   overflow: visible;
   display: flex;
   cursor: move;
   position: absolute;
   justify-content: space-between;
-  left: ${({ styles }) => (styles ? `${styles.left}px` : "50px")};
+  left: ${({ styles }) => (styles ? `${styles.left}px` : "0px")};
 `;
 
 export const ResizeKnobs = styled.div`

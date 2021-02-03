@@ -1,11 +1,11 @@
-import React, { useRef, useLayoutEffect, useState } from 'react';
-import * as Styled from "./style"
-import { useEventListener } from "../../../common/useEventListener";
+import React, { useRef, useLayoutEffect, useState } from "react";
+import * as Styled from "../style";
+import { useEventListener } from "../../../../common/useEventListener";
 
 export const RangeCenter = React.memo((props) => {
-   const { relativRef } = props
+   const { parentRef } = props;
    const centerDragRef = useRef(null);
-   const [currentCenterDrag, setCurrentCenterDrag] = useState(null)
+   const [currentCenterDrag, setCurrentCenterDrag] = useState(null);
    const [dragState, setDragState] = useState({
       diffX: 0,
       diffY: 0,
@@ -13,17 +13,14 @@ export const RangeCenter = React.memo((props) => {
       styles: {},
    });
 
-
    useLayoutEffect(() => {
       const refCenterDrag = centerDragRef.current;
       if (centerDragRef && !currentCenterDrag) {
          setCurrentCenterDrag(refCenterDrag);
       }
-   }, [centerDragRef]);
-
+   }, [centerDragRef, currentCenterDrag]);
 
    const onDragStart = (e) => {
-      console.log("drag start");
       setDragState({
          ...dragState,
          diffX: e.screenX - e.currentTarget.getBoundingClientRect().left,
@@ -33,23 +30,19 @@ export const RangeCenter = React.memo((props) => {
 
    const onDragMove = (e) => {
       if (dragState.isDragging) {
-         console.log(dragState.isDragging);
          const offsetLeft = e.screenX - dragState.diffX;
-         const top = e.screenY - dragState.diffY;
-         const rect = relativRef.current.getBoundingClientRect();
-         const parentClientWidth = relativRef.current.offsetParent.clientWidth;
-         const elementClientWidth = relativRef.current.clientWidth;
+         const parentClientWidth = parentRef.current.offsetParent.clientWidth;
+         const elementClientWidth = parentRef.current.clientWidth;
          const rightBorder = parentClientWidth - elementClientWidth;
 
          if (offsetLeft >= 0 && offsetLeft <= rightBorder) {
-            relativRef.current.style.left = offsetLeft + "px";
+            parentRef.current.style.left = offsetLeft + "px";
          }
       }
    };
 
    const onDragEnd = (e) => {
       const left = e.screenX - dragState.diffX;
-      const top = e.screenY - dragState.diffY;
       setDragState({
          ...dragState,
          isDragging: false,
@@ -62,8 +55,7 @@ export const RangeCenter = React.memo((props) => {
    //Range wrapper drag event listeners
    useEventListener("mousedown", onDragStart, currentCenterDrag);
    useEventListener("mousemove", onDragMove);
-   useEventListener("mouseup", onDragEnd, currentCenterDrag);
+   useEventListener("mouseup", onDragEnd);
 
-   return (<Styled.RangeDrag ref={centerDragRef}></Styled.RangeDrag>);
+   return <Styled.RangeDrag ref={centerDragRef}></Styled.RangeDrag>;
 });
-
