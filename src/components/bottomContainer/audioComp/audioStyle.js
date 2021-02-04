@@ -15,7 +15,7 @@ export const PauseIcon = styled(FontAwesomeIcon)`
 export const PlayIcon = styled(FontAwesomeIcon)`
   color: black;
 `;
-export const UndoRedoIcon = styled(FontAwesomeIcon)`
+export const BackForwIcon = styled(FontAwesomeIcon)`
   color: black;
   transform: scale(1,1);
 `;
@@ -72,7 +72,7 @@ export const PlayButton = styled.button`
     color: black;
   }
 `;
-export const UndoButton = styled.button`
+export const BackForwButton = styled.button`
   width: fit-content;
   align-self: center;
   margin-bottom: 18px;
@@ -89,13 +89,13 @@ export const UndoButton = styled.button`
     color: black;
   }
 `;
-export const UndoWrapper = styled.div`
+export const BackForwWrapper = styled.div`
   display:flex;
   align-self:center;
   justify-content:center;
   cursor: pointer;
 `;
-export const UndoRedoSpan = styled.span`
+export const BackForwSpan = styled.span`
   color: rgba(37, 46, 72, 1);
   font-size:16px;
 `

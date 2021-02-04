@@ -35,7 +35,8 @@ export const RangeCenter = React.memo((props) => {
          const elementClientWidth = parentRef.current.clientWidth;
          const rightBorder = parentClientWidth - elementClientWidth;
 
-         if (offsetLeft >= 0 && offsetLeft <= rightBorder) {
+         const isOutOfBorder = offsetLeft >= 0 && offsetLeft <= rightBorder
+         if (isOutOfBorder) {
             parentRef.current.style.left = offsetLeft + "px";
          }
       }

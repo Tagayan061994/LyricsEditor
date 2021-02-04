@@ -5,15 +5,16 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { parseSecondsToHms, parseHmsToSeconds } from "../../../../common/parseHelpers.js";
 import { StartEndInputs } from "./startEndInputs";
 
-export const LyricsInputWrapper = React.memo(({ data, id }) => {
+export const LyricsInputWrapper = React.memo(({ data }) => {
   let {
+    id,
     start,
     end,
     textParams: { text },
   } = data;
 
   const dispatch = useDispatch();
-  const [inputVal, setinputVal] = useState(text ? text : "");
+  const [inputVal, setinputVal] = useState(text || "");
 
   const handleChangeText = (e) => {
     setinputVal(e.target.value);

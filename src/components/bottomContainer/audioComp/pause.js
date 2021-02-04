@@ -6,7 +6,7 @@ export const Pause = React.memo((props) => {
   const { handleClick } = props;
 
   return (
-    <Styled.PauseButton onClick={() => handleClick()}>
+    <Styled.PauseButton onClick={handleClick}>
       <Styled.PauseIcon icon={faPause} size="lg" />
     </Styled.PauseButton>
   );

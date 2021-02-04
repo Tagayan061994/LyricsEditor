@@ -8,6 +8,7 @@ const initialState = {
   duration: 186,
   audioChunks: [
     {
+      id: 1,
       start: 0,
       end: 186,
       textParams: {
@@ -29,7 +30,10 @@ export const audioConfigs = produce((draft, action) => {
       draft.type = action.payload;
       break;
     case "ADD_AUDIO_CHUNKS_ITEM":
-      draft.audioChunks.push(initialState.audioChunks[0]);
+      draft.audioChunks.push({
+        ...initialState.audioChunks[0],
+        id: draft.audioChunks.length + 1,
+      });
       break;
     case "DELETE_AUDIO_CHUNKS_ITEM":
       draft.audioChunks.splice(action.payload, 1);

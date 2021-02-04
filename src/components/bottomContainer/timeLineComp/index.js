@@ -10,7 +10,7 @@ const TimeLine = React.memo((props) => {
    return (
       <Styled.TimeLineWrapper>
          {chunkData.map((data) => (
-            <RangeDrag data={data} key={Math.random()} fullDuration={fullDuration} />
+            <RangeDrag data={data} key={data.id} fullDuration={fullDuration} />
          ))}
       </Styled.TimeLineWrapper>
    );

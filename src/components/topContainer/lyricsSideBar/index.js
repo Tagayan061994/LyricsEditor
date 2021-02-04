@@ -9,11 +9,11 @@ import { addAudioChunksItem } from "../../../redux/actions/audioActions";
 export const SubTitleSideBar = React.memo(() => {
   const dispatch = useDispatch();
   const chunksData = useSelector(getAudioChunks);
-
+  console.log(chunksData)
   return (
     <Styled.LyricsSideBarWrapper>
       {chunksData.map((data) => (
-        <LyricsInputWrapper key={Math.random()} data={data} id={Math.random()} />
+        <LyricsInputWrapper key={data.id} data={data} />
       ))}
       <Styled.AddButton
         onClick={() => dispatch(addAudioChunksItem())}

@@ -1,7 +1,3 @@
-//helper wich were using in top component
-const SECONDS_PER_DAY = 86400;
-const HOURS_PER_DAY = 24;
-
 /**
  * Convert seconds to HH:MM:SS
  * If seconds exceeds 24 hours, hours will be greater than 24 (30:05:10)
@@ -9,47 +5,45 @@ const HOURS_PER_DAY = 24;
  * @param {number} seconds
  * @returns {string}
  */
+// export const parseSecondsToHms = (seconds) => {
+//    const hours = Math.floor(seconds / 3600).padStart(2, "0")
+
+//    let reminder = seconds - hours * 3600;
+//    const minutes = (Math.floor(reminder / 60)).padStart(2, "0")
+
+//    reminder = reminder - minutes * 60
+//    const sec = Math.floor(reminder).padStart(2, "0")
+
+//    return `${hours}:${minutes}:${sec}`
+// };
+
 export const parseSecondsToHms = (seconds) => {
-   const days = Math.floor(seconds / SECONDS_PER_DAY);
-   const remainderSeconds = seconds % SECONDS_PER_DAY;
-   const hms = new Date(remainderSeconds * 1000).toISOString().substring(11, 19);
-   return hms.replace(/^(\d+)/, (h) =>
-      `${Number(h) + days * HOURS_PER_DAY}`.padStart(2, "0")
+   let numParsedSec = Number(seconds);
+   const hourse = Math.floor(numParsedSec / 3600);
+   const minutes = Math.floor((numParsedSec % 3600) / 60);
+   const second = Math.floor((numParsedSec % 3600) % 60);
+   return (
+      ("0" + hourse).slice(-2) +
+      ":" +
+      ("0" + minutes).slice(-2) +
+      ":" +
+      ("0" + second).slice(-2)
    );
 };
 
-
 /**
- * 
- * @param {*string} Hms 
+ * Convert HMS time to string
+ * @param {*string} Hms e.g. 01:30:20
  */
-export const parseHmsToSeconds = (HMS) => {
-   const hms = HMS;   // your input string
-   const hmsArr = hms.split(':'); // split it at the colons
-
-   // minutes are worth 60 seconds. Hours are worth 60 minutes.
-   const seconds = (+hmsArr[0]) * 60 * 60 + (+hmsArr[1]) * 60 + (+hmsArr[2]);
-
-   return seconds;
-}
-
-
-
-/**
- * 
- * @param {*number} fullWidthPx 
- * @param {*number} px 
- */
+export const parseHmsToSeconds = (hms) => {
+   const [hours, minutes, seconds] = hms.split(":");
+   return hours * 60 * 60 + minutes * 60 + parseInt(seconds);
+};
 
 // Helpers wich were using in bottom component
-export const ParsePxTopercent = (fullWidthPx, px) => {
-   return (px * 100) / fullWidthPx;
-}
+export const calcWhatPercent = (full, part) => (part * 100) / full;
 
-export const ParsePercentToSecond = (fullSecond, percent) => {
-   return (fullSecond * percent) / 100;
-}
+export const ParsePxTopercent = calcWhatPercent;
+export const ParseSecondToPercent = calcWhatPercent;
 
-export const ParseSecondToPercent = (fullSecond, second) => {
-   return (second * 100) / fullSecond;
-}
+export const ParsePercentToSecond = (fullSecond, percent) => (fullSecond * percent) / 100;

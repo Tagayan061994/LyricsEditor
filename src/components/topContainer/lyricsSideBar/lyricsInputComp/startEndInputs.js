@@ -17,6 +17,7 @@ export const StartEndInputs = React.memo((props) => {
   );
 
   const handleChangeEndInput = (e) => {
+    console.log(e.target.value)
     const seconds = parseHmsToSeconds(e.target.value);
     console.log(seconds);
     setEndTimeVal(e.target.value);
