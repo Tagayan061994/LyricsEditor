@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import * as Styled from "./style";
 import { useDispatch } from "react-redux";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { parseSecondsToHms, parseHmsToSeconds } from "../../../../common/parseHelpers.js";
-import { StartEndInputs } from "./startEndInputs";
+import { deleteAudioChunksItem } from "../../../../redux/actions/audioActions";
+import {
+  parseSecondsToHms,
+  parseHmsToSeconds,
+} from "../../../../common/parseHelpers.js";
+import StartEndWrapp from "./startEndWrapp";
 
 export const LyricsInputWrapper = React.memo(({ data }) => {
   let {
@@ -21,7 +25,8 @@ export const LyricsInputWrapper = React.memo(({ data }) => {
   };
 
   const deleteItem = () => {
-    dispatch({ type: "DELETE_AUDIO_CHUNKS_ITEM", paload: id });
+    console.log(id);
+    dispatch(deleteAudioChunksItem(id));
   };
 
   return (
@@ -31,7 +36,15 @@ export const LyricsInputWrapper = React.memo(({ data }) => {
         value={inputVal}
         onChange={handleChangeText}
       ></Styled.LyricsInput>
-      <StartEndInputs start={start} end={end} />
+      <StartEndWrapp start={start} end={end} id={id} />
     </Styled.LyricsInputWrapper>
   );
 });
+
+// //redux connect
+// const mapStateToProps = (state) => ({
+//   chunksData: getAudioChunks(state),
+//   fullDuration: getAudioDuration(state),
+// });
+
+// export default connect(mapStateToProps, { addAudioChunksItem })(SubTitleSideBar);

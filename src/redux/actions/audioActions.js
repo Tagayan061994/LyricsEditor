@@ -37,3 +37,13 @@ export const getAudioDuration = () => {
     type: "GET_AUDIO_DURATION",
   };
 };
+
+export const updateChunkItemEnd = (id, itemEnd) => {
+  return {
+    type: "UPDATE_CHUNK_ITEM_END",
+    payload: {
+      id,
+      itemEnd
+    }
+  }
+}

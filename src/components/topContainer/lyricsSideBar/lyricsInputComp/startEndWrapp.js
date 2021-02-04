@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import * as Styled from "./style";
+import { connect } from "react-redux";
 import { TimeInput } from "./timeInput";
+import { useFocus } from "../../../../common/useFocus";
+import { updateChunkItemEnd } from "../../../../redux/actions/audioActions";
 import {
   parseSecondsToHms,
   parseHmsToSeconds,
 } from "../../../../common/parseHelpers.js";
 
-export const StartEndInputs = React.memo((props) => {
-  const { start, end } = props;
+
+const StartEndWrapp = React.memo((props) => {
+  const { start, end, id, updateChunkItemEnd } = props;
+  const inputRef = useRef();
+  const focused = useFocus(inputRef, true);
 
   const [startTimeVal, setStartTimeVal] = useState(
     start ? parseSecondsToHms(start) : "00:00:00"
@@ -17,32 +23,43 @@ export const StartEndInputs = React.memo((props) => {
   );
 
   const handleChangeEndInput = (e) => {
-    console.log(e.target.value)
-    const seconds = parseHmsToSeconds(e.target.value);
-    console.log(seconds);
     setEndTimeVal(e.target.value);
   };
+
+  useEffect(() => {
+    updateChunkItemEnd(id, parseHmsToSeconds(endTimeVal));
+  }, [endTimeVal])
 
   const handleChangeStartInput = (e) => {
     setStartTimeVal(parseSecondsToHms(e.target.value));
   };
 
+
+
   return (
     <Styled.StartEndWrapper>
       <TimeInput
-        max={parseSecondsToHms(end)}
-        min={parseSecondsToHms(start)}
         label="Start"
         value={startTimeVal}
+        max={parseSecondsToHms(end)}
+        min={parseSecondsToHms(start)}
         onChange={handleChangeStartInput}
       />
       <TimeInput
-        max={parseSecondsToHms(end)}
-        min={parseSecondsToHms(start)}
+        inputRef={inputRef}
         label="End"
         value={endTimeVal}
+        max={parseSecondsToHms(end)}
+        min={parseSecondsToHms(start)}
         onChange={handleChangeEndInput}
       />
     </Styled.StartEndWrapper>
   );
 });
+
+const mapStateToProps = (state) => ({
+  // chunksData: getAudioChunks(state),
+  // fullDuration: getAudioDuration(state),
+});
+
+export default connect(null, { updateChunkItemEnd })(StartEndWrapp);

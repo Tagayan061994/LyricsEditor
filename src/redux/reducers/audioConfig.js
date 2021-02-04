@@ -32,10 +32,19 @@ export const audioConfigs = produce((draft, action) => {
     case "ADD_AUDIO_CHUNKS_ITEM":
       draft.audioChunks.push({
         ...initialState.audioChunks[0],
+        start: draft.audioChunks[draft.audioChunks.length - 1].end,
+        end: draft.duration - draft.audioChunks[draft.audioChunks.length - 1].start,
         id: draft.audioChunks.length + 1,
       });
       break;
     case "DELETE_AUDIO_CHUNKS_ITEM":
       draft.audioChunks.splice(action.payload, 1);
+    case "UPDATE_CHUNK_ITEM_END":
+      draft.audioChunks.map((data) =>
+        data.id == action.payload.id
+          ? (data.end = action.payload.itemEnd)
+          : null
+      );
+      break;
   }
 }, initialState);
