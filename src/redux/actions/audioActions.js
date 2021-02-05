@@ -43,7 +43,7 @@ export const updateChunkItemEnd = (id, itemEnd) => {
     type: "UPDATE_CHUNK_ITEM_END",
     payload: {
       id,
-      itemEnd
-    }
-  }
-}
+      itemEnd,
+    },
+  };
+};

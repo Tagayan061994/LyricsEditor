@@ -12,8 +12,6 @@ export const RangeDrag = React.memo(({ data, fullDuration }) => {
   const containerRef = useRef(null);
   const [currentRelativeRef, setRelativeRef] = useState(null);
 
-  console.log("End", end);
-
   useLayoutEffect(() => {
     const refRelative = containerRef.current;
     if (refRelative && !currentRelativeRef) {

@@ -10,7 +10,7 @@ import {
 import StartEndWrapp from "./startEndWrapp";
 
 export const LyricsInputWrapper = React.memo(({ data }) => {
-  let {
+  const {
     id,
     start,
     end,
@@ -25,7 +25,7 @@ export const LyricsInputWrapper = React.memo(({ data }) => {
   };
 
   const deleteItem = () => {
-    console.log(id);
+    console.log(id)
     dispatch(deleteAudioChunksItem(id));
   };
 

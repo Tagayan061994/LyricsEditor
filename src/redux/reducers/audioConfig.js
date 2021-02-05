@@ -24,27 +24,39 @@ const initialState = {
   ],
 };
 
+const deleteItem = (draft, id) => {
+  draft.splice(
+    draft.findIndex((chunk) => chunk.id !== id),
+    1
+  );
+};
+
+const updateTodos = (draft, obj) => {
+  draft[draft.findIndex((chunk) => chunk.id === obj.id)].end = obj.itemEnd;
+};
+
+const addChunkItem = (draft) => {
+  draft.audioChunks.push({
+    ...initialState.audioChunks[0],
+    id: draft.audioChunks.length + 1,
+    end: draft.duration,
+    start: draft.audioChunks[draft.audioChunks.length - 1].end,
+  });
+};
+
 export const audioConfigs = produce((draft, action) => {
   switch (action.type) {
     case "SET_TYPE":
       draft.type = action.payload;
       break;
     case "ADD_AUDIO_CHUNKS_ITEM":
-      draft.audioChunks.push({
-        ...initialState.audioChunks[0],
-        start: draft.audioChunks[draft.audioChunks.length - 1].end,
-        end: draft.duration - draft.audioChunks[draft.audioChunks.length - 1].start,
-        id: draft.audioChunks.length + 1,
-      });
+      addChunkItem(draft);
       break;
     case "DELETE_AUDIO_CHUNKS_ITEM":
-      draft.audioChunks.splice(action.payload, 1);
+      deleteItem(draft.audioChunks, action.payload);
+      break;
     case "UPDATE_CHUNK_ITEM_END":
-      draft.audioChunks.map((data) =>
-        data.id == action.payload.id
-          ? (data.end = action.payload.itemEnd)
-          : null
-      );
+      updateTodos(draft.audioChunks, action.payload);
       break;
   }
 }, initialState);

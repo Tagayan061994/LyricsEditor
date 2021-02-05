@@ -7,15 +7,16 @@ import { getAudioChunks, getAudioDuration } from "../../../redux/selectors";
 
 const SubTitleSideBar = React.memo((props) => {
   const { chunksData, fullDuration, addAudioChunksItem } = props;
+  const lastChunkEndTime = chunksData[chunksData.length - 1].end;
 
   return (
     <Styled.LyricsSideBarWrapper>
       {chunksData.map((data) => (
         <LyricsInputWrapper key={data.id} data={data} />
-      ))} 
+      ))}
       <Styled.AddButton
         onClick={addAudioChunksItem}
-        disabled={chunksData[0].end === fullDuration ? true : false}
+        disabled={lastChunkEndTime === fullDuration ? true : false}
       >
         + add sub
       </Styled.AddButton>
@@ -29,4 +30,6 @@ const mapStateToProps = (state) => ({
   fullDuration: getAudioDuration(state),
 });
 
-export default connect(mapStateToProps, { addAudioChunksItem })(SubTitleSideBar);
+export default connect(mapStateToProps, { addAudioChunksItem })(
+  SubTitleSideBar
+);
