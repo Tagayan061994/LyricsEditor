@@ -10,12 +10,12 @@ import { RangeCenter } from "./rangeCenter";
 export const RangeDrag = React.memo(({ data, fullDuration }) => {
   const { start, end } = data;
   const containerRef = useRef(null);
-  const [currentRelativeRef, setRelativeRef] = useState(null);
+  const [currentRelativeRef, setcurrentRelativeRef] = useState(null);
 
   useLayoutEffect(() => {
     const refRelative = containerRef.current;
     if (refRelative && !currentRelativeRef) {
-      setRelativeRef(refRelative);
+      setcurrentRelativeRef(refRelative);
     }
   }, [containerRef]);
 
@@ -24,10 +24,15 @@ export const RangeDrag = React.memo(({ data, fullDuration }) => {
     return ParseSecondToPercent(fullDuration, timeLineDuration);
   };
 
+  const calcLeftInPercentage = () => {
+    return ParseSecondToPercent(fullDuration, start);
+  };
+
   return (
     <Styled.RangeContainer
       ref={containerRef}
       withInPercent={calcWidthInPercentage()}
+      leftInPercentage={calcLeftInPercentage()}
     >
       <RangeKnob parentRef={containerRef} knobSide="left" />
       <RangeCenter parentRef={containerRef} />

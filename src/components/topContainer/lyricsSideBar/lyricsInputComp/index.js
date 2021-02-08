@@ -3,10 +3,6 @@ import * as Styled from "./style";
 import { useDispatch } from "react-redux";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { deleteAudioChunksItem } from "../../../../redux/actions/audioActions";
-import {
-  parseSecondsToHms,
-  parseHmsToSeconds,
-} from "../../../../common/parseHelpers.js";
 import StartEndWrapp from "./startEndWrapp";
 
 export const LyricsInputWrapper = React.memo(({ data }) => {
@@ -25,7 +21,6 @@ export const LyricsInputWrapper = React.memo(({ data }) => {
   };
 
   const deleteItem = () => {
-    console.log(id)
     dispatch(deleteAudioChunksItem(id));
   };
 

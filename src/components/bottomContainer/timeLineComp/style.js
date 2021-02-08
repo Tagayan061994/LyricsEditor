@@ -6,6 +6,7 @@ export const TimeLineWrapper = styled.div`
   height: 41px;
   position: relative;
   margin-top: 13px;
+  display:flex;
   transform: scale(1, 1);
   background-color: rgba(185, 207, 255, 1);
 `;
@@ -13,13 +14,14 @@ export const TimeLineWrapper = styled.div`
 export const RangeContainer = styled.div`
   background-color: rgba(118, 109, 232, 0.4);
   width: ${props => props.withInPercent ? `${props.withInPercent}%` : 0};
+  left: ${props => props.leftInPercentage ? `${props.leftInPercentage}%` : 0};
   height: 100%;
   overflow: visible;
   display: flex;
   cursor: move;
   position: absolute;
   justify-content: space-between;
-  left: ${({ styles }) => (styles ? `${styles.left}px` : "0px")};
+  /* left: ${({ styles }) => (styles ? `${styles.left}px` : "0px")}; */
 `;
 
 export const ResizeKnobs = styled.div`

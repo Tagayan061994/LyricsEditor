@@ -28,3 +28,15 @@ export const AddButton = styled.button`
   box-shadow: 0px 3px 9px #0052e01a;
   background: #ffffff 0% 0% no-repeat padding-box;
 `;
+
+export const ModalWrapper = styled.div`
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 30%;
+  top: 30%;
+  width: 20%; /* Full width */
+  height: 20%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 250, 0); /* Fallback color */
+  background-color: rgba(0, 250, 0, 0.4); /* Black w/ opacity */
+`;

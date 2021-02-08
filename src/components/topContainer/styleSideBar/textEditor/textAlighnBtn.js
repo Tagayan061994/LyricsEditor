@@ -5,6 +5,7 @@ import {
   faAlignLeft,
   faAlignRight,
 } from "@fortawesome/free-solid-svg-icons";
+
 const data = [
   {
     icon: faAlignLeft,

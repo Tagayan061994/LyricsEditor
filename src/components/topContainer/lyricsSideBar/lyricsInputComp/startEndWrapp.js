@@ -9,7 +9,6 @@ import {
   parseHmsToSeconds,
 } from "../../../../common/parseHelpers.js";
 
-
 const StartEndWrapp = React.memo((props) => {
   const { start, end, id, updateChunkItemEnd } = props;
   const inputRef = useRef();
@@ -28,13 +27,11 @@ const StartEndWrapp = React.memo((props) => {
 
   useEffect(() => {
     updateChunkItemEnd(id, parseHmsToSeconds(endTimeVal));
-  }, [endTimeVal])
+  }, [endTimeVal]);
 
   const handleChangeStartInput = (e) => {
     setStartTimeVal(parseSecondsToHms(e.target.value));
   };
-
-
 
   return (
     <Styled.StartEndWrapper>
