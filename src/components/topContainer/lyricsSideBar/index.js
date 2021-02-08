@@ -4,13 +4,8 @@ import { connect } from "react-redux";
 import { LyricsInputWrapper } from "./lyricsInputComp/index.js";
 import { addAudioChunksItem } from "../../../redux/actions/audioActions";
 import { getAudioChunks, getAudioDuration } from "../../../redux/selectors";
-import { useOutsideClickHandler } from "../../../common/useOutSideClickHandler";
 
 const SubTitleSideBar = React.memo((props) => {
-  const modalRef = useRef(null);
-  const [isModalOpen, setisModalOpen] = useState(false);
-  useOutsideClickHandler(modalRef, () => setisModalOpen(false));
-
   const { chunksData, fullDuration, addAudioChunksItem } = props;
   const lastChunkEndTime = chunksData[chunksData.length - 1].end;
 
@@ -25,10 +20,6 @@ const SubTitleSideBar = React.memo((props) => {
       >
         + add sub
       </Styled.AddButton>
-      <button onClick={() => setisModalOpen(!isModalOpen)}>open modal</button>
-      {isModalOpen && (
-        <Styled.ModalWrapper ref={modalRef}>Modal</Styled.ModalWrapper>
-      )}
     </Styled.LyricsSideBarWrapper>
   );
 });
