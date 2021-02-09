@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 export const MainVideoWrapper = styled.div`
   flex-basis: 57%;
-  padding: 25.5px;
-  transform: scale(1,1);
+  /* padding: 0.5px; */
+  transform: scale(0.8);
   flex: 2;
   background: transparent
-    radial-gradient(closest-side at 50% 41%, #ffffff 0%, #eef5ff 100%) 0% 0%
+    radial-gradient(closest-side at 30% 41%, #ffffff 0%, #eef5ff 100%) 0% 0%
     no-repeat padding-box;
 `;
 

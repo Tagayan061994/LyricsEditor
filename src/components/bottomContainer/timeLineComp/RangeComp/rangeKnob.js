@@ -43,7 +43,6 @@ export const RangeKnob = React.memo((props) => {
     const timeLineWidthToRight = parentRef.current.offsetWidth + e.movementX;
     const timeLineWidthToLeft = parentRef.current.offsetWidth - e.movementX;
     const timeLineOffset = parentRef.current.offsetLeft + e.movementX;
-    const parentWidth = parentRef.current.offsetParent.offsetWidth;
 
     if (resizeState.isResizing) {
       e.stopPropagation();

@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import * as Styled from "./style";
-import { useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { deleteAudioChunksItem } from "../../../../redux/actions/audioActions";
-import StartEndWrapp from "./startEndWrapp";
+import { StartEndWrapp } from "./startEndWrapp";
 
-export const LyricsInputWrapper = React.memo(({ data }) => {
+const LyricsInputWrapper = React.memo(({ data, deleteAudioChunksItem }) => {
   const {
     id,
     start,
     end,
     textParams: { text },
   } = data;
-
-  const dispatch = useDispatch();
   const [inputVal, setinputVal] = useState(text || "");
 
   const handleChangeText = (e) => {
@@ -21,7 +19,7 @@ export const LyricsInputWrapper = React.memo(({ data }) => {
   };
 
   const deleteItem = () => {
-    dispatch(deleteAudioChunksItem(id));
+    deleteAudioChunksItem(id);
   };
 
   return (
@@ -36,10 +34,13 @@ export const LyricsInputWrapper = React.memo(({ data }) => {
   );
 });
 
-// //redux connect
-// const mapStateToProps = (state) => ({
-//   chunksData: getAudioChunks(state),
-//   fullDuration: getAudioDuration(state),
-// });
 
-// export default connect(mapStateToProps, { addAudioChunksItem })(SubTitleSideBar);
+//redux connect
+const mapStateToProps = (state) => ({
+  // chunksData: getAudioChunks(state),
+  // fullDuration: getAudioDuration(state),
+});
+
+export default connect(mapStateToProps, { deleteAudioChunksItem })(
+  LyricsInputWrapper
+);

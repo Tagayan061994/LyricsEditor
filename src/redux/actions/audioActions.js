@@ -44,6 +44,15 @@ export const updateChunkItemEnd = (id, itemEnd) => {
     payload: {
       id,
       itemEnd,
-    },
+    }
   };
 };
+export const updateChunkItemStart = (id, itemStart) => {
+  return {
+    type: "UPDATE_CHUNK_ITEM_START",
+    payload: {
+      id,
+      itemStart,
+    }
+  }
+}

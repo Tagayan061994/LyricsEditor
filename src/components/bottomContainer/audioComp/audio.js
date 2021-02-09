@@ -10,7 +10,7 @@ import useAudioPlayer from "./useAudioPlayer";
 import { getAudioUrl } from "../../../redux/selectors";
 
 export const AudioPlayer = React.memo(() => {
-  const audioRef = useRef()
+  const audioRef = useRef();
   const audioUrl = useSelector(getAudioUrl);
   const [currentDuration, setCurrentDuration] = useState("00:00:00");
   const {
@@ -34,8 +34,8 @@ export const AudioPlayer = React.memo(() => {
           {playing ? (
             <Pause handleClick={() => setPlaying(false)} />
           ) : (
-              <Play handleClick={() => setPlaying(true)} />
-            )}
+            <Play handleClick={() => setPlaying(true)} />
+          )}
           <ForwardBtn handleClick={() => setCurTime(curTime + 1)} />
           <Styled.BarTimeSpan>{currentDuration}</Styled.BarTimeSpan>
         </Styled.PlayPauseWrapper>

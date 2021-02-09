@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 export const useFocus = (ref, defaultState = false) => {
    const [state, setState] = useState(defaultState);
@@ -6,14 +6,15 @@ export const useFocus = (ref, defaultState = false) => {
    useEffect(() => {
       const onFocus = () => setState(true);
       const onBlur = () => setState(false);
-      ref.current.addEventListener("focus", onFocus);
-      ref.current.addEventListener("blur", onBlur);
+      const element = ref.current
+      element.addEventListener("focus", onFocus);
+      element.addEventListener("blur", onBlur);
 
       return () => {
-         ref.current.removeEventListener("focus", onFocus);
-         ref.current.removeEventListener("blur", onBlur);
+         element.removeEventListener("focus", onFocus);
+         element.removeEventListener("blur", onBlur);
       };
-   }, []);
+   });
 
    return state;
 };

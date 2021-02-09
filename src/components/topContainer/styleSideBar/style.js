@@ -3,11 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const StyleSideBarWrapper = styled.div`
   max-width: 243px;
+  max-height: 550px;
   flex: 1 1 auto;
   background: #ffffff 0% 0% no-repeat padding-box;
   border-right: 1px solid rgba(112, 112, 112, 0.15);
   box-shadow: 0px 6px 12px #0052e029;
   padding: 91px 0px 210px 0px;
+  overflow: auto;
   div + div {
     border-bottom: 1px solid rgba(112, 112, 112, 0.15);
     border-top: 1px solid rgba(112, 112, 112, 0.15);
@@ -40,5 +42,5 @@ export const TextSpan = styled.span`
   font-size: 15px;
   color: rgba(37, 46, 72, 1);
   font-weight: Medium;
-  margin-left:18px;
+  margin-left: 18px;
 `;

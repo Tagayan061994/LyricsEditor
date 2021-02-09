@@ -2,14 +2,14 @@ import styled from "styled-components";
 
 export const LyricsSideBarWrapper = styled.div`
   max-width: 339px;
+  max-height: 550px;
   flex: 1 1 auto;
   display: flex;
   padding-top: 73px;
   padding-left: 8px;
   padding-right: 1px;
   flex-direction: column;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: auto;
   border-left: 1px solid rgba(112, 112, 112, 0.15);
 `;
 

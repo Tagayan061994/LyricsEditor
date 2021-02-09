@@ -16,7 +16,7 @@ function useAudioPlayer(audioRef) {
     };
 
     const setAudioTime = () => setCurTime(audio.currentTime);
-    
+
     audio.addEventListener("loadeddata", setAudioData);
 
     audio.addEventListener("timeupdate", setAudioTime);
@@ -34,7 +34,7 @@ function useAudioPlayer(audioRef) {
       audio.removeEventListener("loadeddata", setAudioData);
       audio.removeEventListener("timeupdate", setAudioTime);
     };
-  }, [playing, clickedTime, curTime]);
+  }, [playing, clickedTime, curTime, audioRef]);
 
   return {
     curTime,

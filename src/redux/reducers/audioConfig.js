@@ -1,4 +1,5 @@
 import produce from "immer";
+import { deleteItem, updateChunkEnd, updateChunkStart, addChunkItem } from "./producers"
 
 const initialState = {
   audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
@@ -24,25 +25,6 @@ const initialState = {
   ],
 };
 
-const deleteItem = (draft, id) => {
-  draft.splice(
-    draft.findIndex((chunk) => chunk.id !== id),
-    1
-  );
-};
-
-const updateTodos = (draft, obj) => {
-  draft[draft.findIndex((chunk) => chunk.id === obj.id)].end = obj.itemEnd;
-};
-
-const addChunkItem = (draft) => {
-  draft.audioChunks.push({
-    ...initialState.audioChunks[0],
-    id: draft.audioChunks.length + 1,
-    end: draft.duration,
-    start: draft.audioChunks[draft.audioChunks.length - 1].end,
-  });
-};
 
 export const audioConfigs = produce((draft, action) => {
   switch (action.type) {
@@ -50,13 +32,16 @@ export const audioConfigs = produce((draft, action) => {
       draft.type = action.payload;
       break;
     case "ADD_AUDIO_CHUNKS_ITEM":
-      addChunkItem(draft);
+      addChunkItem(draft, initialState);
       break;
     case "DELETE_AUDIO_CHUNKS_ITEM":
       deleteItem(draft.audioChunks, action.payload);
       break;
     case "UPDATE_CHUNK_ITEM_END":
-      updateTodos(draft.audioChunks, action.payload);
+      updateChunkEnd(draft.audioChunks, action.payload);
+      break;
+    case "UPDATE_CHUNK_ITEM_START":
+      updateChunkStart(draft.audioChunks, action.payload);
       break;
   }
 }, initialState);

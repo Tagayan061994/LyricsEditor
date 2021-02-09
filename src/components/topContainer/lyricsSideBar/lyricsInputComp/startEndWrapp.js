@@ -1,62 +1,46 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import * as Styled from "./style";
-import { connect } from "react-redux";
-import { TimeInput } from "./timeInput";
-import { useFocus } from "../../../../common/useFocus";
-import { updateChunkItemEnd } from "../../../../redux/actions/audioActions";
-import {
-  parseSecondsToHms,
-  parseHmsToSeconds,
-} from "../../../../common/parseHelpers.js";
+import TimeInput from "./timeInput";
+import { parseSecondsToHms } from "../../../../common/parseHelpers.js";
 
-const StartEndWrapp = React.memo((props) => {
-  const { start, end, id, updateChunkItemEnd } = props;
-  const inputRef = useRef();
-  const focused = useFocus(inputRef, true);
+export const StartEndWrapp = React.memo((props) => {
+  const { start, end, id } = props;
+  const maxValEnd = parseSecondsToHms(end);
+  const minValEnd = parseSecondsToHms(start);
+  const maxValStart = parseSecondsToHms(end);
+  const minValStart = parseSecondsToHms(start);
 
+  const [endTimeVal, setEndTimeVal] = useState(end ? maxValEnd : "00:00:00");
   const [startTimeVal, setStartTimeVal] = useState(
-    start ? parseSecondsToHms(start) : "00:00:00"
-  );
-  const [endTimeVal, setEndTimeVal] = useState(
-    end ? parseSecondsToHms(end) : "00:00:00"
+    start ? minValStart : "00:00:00"
   );
 
   const handleChangeEndInput = (e) => {
     setEndTimeVal(e.target.value);
   };
 
-  useEffect(() => {
-    updateChunkItemEnd(id, parseHmsToSeconds(endTimeVal));
-  }, [endTimeVal]);
-
   const handleChangeStartInput = (e) => {
-    setStartTimeVal(parseSecondsToHms(e.target.value));
+    setStartTimeVal(e.target.value);
   };
 
   return (
     <Styled.StartEndWrapper>
       <TimeInput
         label="Start"
+        id={id}
         value={startTimeVal}
-        max={parseSecondsToHms(end)}
-        min={parseSecondsToHms(start)}
+        max={maxValStart}
+        min={minValStart}
         onChange={handleChangeStartInput}
       />
       <TimeInput
-        inputRef={inputRef}
         label="End"
+        id={id}
         value={endTimeVal}
-        max={parseSecondsToHms(end)}
-        min={parseSecondsToHms(start)}
+        max={maxValEnd}
+        min={minValEnd}
         onChange={handleChangeEndInput}
       />
     </Styled.StartEndWrapper>
   );
 });
-
-const mapStateToProps = (state) => ({
-  // chunksData: getAudioChunks(state),
-  // fullDuration: getAudioDuration(state),
-});
-
-export default connect(null, { updateChunkItemEnd })(StartEndWrapp);

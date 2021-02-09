@@ -1,13 +1,14 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import * as Styled from "./style";
 import { connect } from "react-redux";
-import { LyricsInputWrapper } from "./lyricsInputComp/index.js";
+import LyricsInputWrapper from "./lyricsInputComp/index.js";
 import { addAudioChunksItem } from "../../../redux/actions/audioActions";
 import { getAudioChunks, getAudioDuration } from "../../../redux/selectors";
 
 const SubTitleSideBar = React.memo((props) => {
   const { chunksData, fullDuration, addAudioChunksItem } = props;
-  const lastChunkEndTime = chunksData[chunksData.length - 1].end;
+  const lastChunkIndex = chunksData[chunksData.length - 1]
+  const lastChunkEndTime = lastChunkIndex.end;
 
   return (
     <Styled.LyricsSideBarWrapper>

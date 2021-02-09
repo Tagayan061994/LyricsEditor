@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const BottomContainer = styled.div`
-  height: 173px;
   padding: 18px 13px;
   display: flex;
   flex-direction: column;
