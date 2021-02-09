@@ -28,19 +28,9 @@ export const Bar = React.memo((props) => {
     setCurrentDuration(formatDuration(curTime));
   }, [curTime, setCurrentDuration]);
 
-  function handleTimeDrag(e) {
+  const handleTimeDrag = (e) => {
     onTimeUpdate(calcClickedTime(e));
-
-    const updateTimeOnMove = (eMove) => {
-      onTimeUpdate(calcClickedTime(eMove));
-    };
-
-    document.addEventListener("mousemove", updateTimeOnMove);
-
-    document.addEventListener("mouseup", () => {
-      document.removeEventListener("mousemove", updateTimeOnMove);
-    });
-  }
+  };
 
   return (
     <Styled.BarContainer>

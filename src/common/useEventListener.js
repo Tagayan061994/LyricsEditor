@@ -1,11 +1,9 @@
 import { useRef, useEffect } from "react";
 
-// Hook
 export const useEventListener = (eventName, handler, element = window) => {
    // Create a ref that stores handler
    const savedHandler = useRef();
 
-   // Update ref.current value if handler changes.
    useEffect(() => {
       savedHandler.current = handler;
    }, [handler]);

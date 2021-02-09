@@ -1,11 +1,11 @@
-import React, { useState, useRef, useLayoutEffect } from "react";
+import React, { useState, useRef, useLayoutEffect, useMemo } from "react";
 import * as Styled from "../style";
 import { ParseSecondToPercent } from "../../../../common/parseHelpers";
 import { RangeKnob } from "./rangeKnob";
 import { RangeCenter } from "./rangeCenter";
 
 export const RangeDrag = React.memo(({ data, fullDuration }) => {
-  const { start, end } = data;
+  const { start, end, id } = data;
   const containerRef = useRef(null);
   const [currentRelativeRef, setcurrentRelativeRef] = useState(null);
 
@@ -16,23 +16,25 @@ export const RangeDrag = React.memo(({ data, fullDuration }) => {
     }
   }, [containerRef, currentRelativeRef]);
 
-  const calcWidthInPercentage = () => {
+  const withInPercentage = useMemo(() => {
     const timeLineDuration = end - start;
     return ParseSecondToPercent(fullDuration, timeLineDuration);
-  };
+  }, [end, start, fullDuration])
 
-  const calcLeftInPercentage = () => {
+  const leftInPercentage = useMemo(() => {
     return ParseSecondToPercent(fullDuration, start);
-  };
+  }, [fullDuration, start])
 
-  const withInPercentage = calcWidthInPercentage();
-  const leftInPercentage = calcLeftInPercentage();
+  const showId = () => {
+    console.log("current", id)
+  }
 
   return (
     <Styled.RangeContainer
       ref={containerRef}
       withInPercent={withInPercentage}
       leftInPercentage={leftInPercentage}
+      onClick={showId}
     >
       <RangeKnob parentRef={containerRef} knobSide="left" />
       <RangeCenter parentRef={containerRef} />

@@ -1,23 +1,48 @@
+const initialChunkItem = {
+  id: 1,
+  start: 0,
+  end: 186,
+  textParams: {
+    text: "Lorem Ipsum",
+    fontName: "Montserrat",
+    color: "red",
+    size: "16px",
+    coordinates: [120, 190],
+    opacity: 1,
+    styles: ["bold", "italic", "underlined"],
+  },
+};
+
+const getChunkById = (chunks, id) => {
+  return chunks.find((chunk) => chunk.id === id);
+};
+
 export const deleteItem = (draft, id) => {
-   draft.splice(
-      draft.findIndex((chunk) => chunk.id !== id),
-      1
-   );
+  const chunk = getChunkById(draft.audioChunks, id);
+  draft.audioChunks.splice(chunk, 1);
 };
 
 export const updateChunkEnd = (draft, obj) => {
-   draft[draft.findIndex((chunk) => chunk.id === obj.id)].end = obj.itemEnd;
+  const chunk = getChunkById(draft.audioChunks, obj.id);
+  if (chunk) {
+    chunk.end = obj.itemEnd;
+  }
 };
 
 export const updateChunkStart = (draft, obj) => {
-   draft[draft.findIndex((chunk) => chunk.id === obj.id)].start = obj.itemStart;
+  const chunk = getChunkById(draft.audioChunks, obj.id);
+  if (chunk) {
+    chunk.end = obj.itemStart;
+  }
 };
 
-export const addChunkItem = (draft, initialState) => {
-   draft.audioChunks.push({
-      ...initialState.audioChunks[0],
-      id: draft.audioChunks.length + 1,
-      end: draft.duration,
-      start: draft.audioChunks[draft.audioChunks.length - 1].end,
-   });
+export const addChunkItem = (draft) => {
+  const chunksLength = draft.audioChunks.length;
+  const lastChunkIndex = chunksLength - 1;
+  draft.audioChunks.push({
+    ...initialChunkItem,
+    id: chunksLength + 1,
+    end: draft.duration,
+    start: draft.audioChunks[lastChunkIndex].end,
+  });
 };

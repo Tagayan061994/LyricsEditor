@@ -1,5 +1,10 @@
 import produce from "immer";
-import { deleteItem, updateChunkEnd, updateChunkStart, addChunkItem } from "./producers"
+import {
+  deleteItem,
+  updateChunkEnd,
+  updateChunkStart,
+  addChunkItem,
+} from "./producers";
 
 const initialState = {
   audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
@@ -25,7 +30,6 @@ const initialState = {
   ],
 };
 
-
 export const audioConfigs = produce((draft, action) => {
   switch (action.type) {
     case "SET_TYPE":
@@ -35,13 +39,13 @@ export const audioConfigs = produce((draft, action) => {
       addChunkItem(draft, initialState);
       break;
     case "DELETE_AUDIO_CHUNKS_ITEM":
-      deleteItem(draft.audioChunks, action.payload);
+      deleteItem(draft, action.payload);
       break;
     case "UPDATE_CHUNK_ITEM_END":
-      updateChunkEnd(draft.audioChunks, action.payload);
+      updateChunkEnd(draft, action.payload);
       break;
     case "UPDATE_CHUNK_ITEM_START":
-      updateChunkStart(draft.audioChunks, action.payload);
+      updateChunkStart(draft, action.payload);
       break;
   }
 }, initialState);
