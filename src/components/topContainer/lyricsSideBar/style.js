@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 export const LyricsSideBarWrapper = styled.div`
   max-width: 339px;
-  max-height: 550px;
+  width: 100%;
+  /* max-height: 550px; */
   flex: 1 1 auto;
   display: flex;
   padding-top: 73px;
@@ -10,6 +11,7 @@ export const LyricsSideBarWrapper = styled.div`
   padding-right: 1px;
   flex-direction: column;
   overflow: auto;
+  box-sizing: border-box;
   border-left: 1px solid rgba(112, 112, 112, 0.15);
 `;
 
@@ -30,13 +32,13 @@ export const AddButton = styled.button`
 `;
 
 export const ModalWrapper = styled.div`
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  position: fixed;
+  z-index: 1;
   left: 30%;
   top: 30%;
-  width: 20%; /* Full width */
-  height: 20%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0, 250, 0); /* Fallback color */
-  background-color: rgba(0, 250, 0, 0.4); /* Black w/ opacity */
+  width: 20%;
+  height: 20%;
+  overflow: auto;
+  background-color: rgb(0, 250, 0);
+  background-color: rgba(0, 250, 0, 0.4);
 `;

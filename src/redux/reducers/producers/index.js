@@ -32,7 +32,7 @@ export const updateChunkEnd = (draft, obj) => {
 export const updateChunkStart = (draft, obj) => {
   const chunk = getChunkById(draft.audioChunks, obj.id);
   if (chunk) {
-    chunk.end = obj.itemStart;
+    chunk.start = obj.itemStart;
   }
 };
 

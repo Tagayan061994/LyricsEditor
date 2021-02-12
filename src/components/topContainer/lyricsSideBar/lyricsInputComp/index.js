@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import * as Styled from "./style";
 import { connect } from "react-redux";
+import { StartEndWrapp } from "./startEndWrapp";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { deleteAudioChunksItem } from "../../../../redux/actions/audioActions";
-import { StartEndWrapp } from "./startEndWrapp";
 
 const LyricsInputWrapper = React.memo(({ data, deleteAudioChunksItem }) => {
   const {
@@ -33,7 +33,6 @@ const LyricsInputWrapper = React.memo(({ data, deleteAudioChunksItem }) => {
     </Styled.LyricsInputWrapper>
   );
 });
-
 
 //redux connect
 const mapStateToProps = (state) => ({

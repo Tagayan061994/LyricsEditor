@@ -10,18 +10,8 @@ export const StartEndWrapp = React.memo((props) => {
   const maxValStart = parseSecondsToHms(end);
   const minValStart = parseSecondsToHms(start);
 
-  const [endTimeVal, setEndTimeVal] = useState(end ? maxValEnd : "00:00:00");
-  const [startTimeVal, setStartTimeVal] = useState(
-    start ? minValStart : "00:00:00"
-  );
-
-  const handleChangeEndInput = (e) => {
-    setEndTimeVal(e.target.value);
-  };
-
-  const handleChangeStartInput = (e) => {
-    setStartTimeVal(e.target.value);
-  };
+  const endTimeVal = end ? maxValEnd : "00:00:00";
+  const startTimeVal = start ? minValStart : "00:00:00";
 
   return (
     <Styled.StartEndWrapper>
@@ -31,7 +21,6 @@ export const StartEndWrapp = React.memo((props) => {
         value={startTimeVal}
         max={maxValStart}
         min={minValStart}
-        onChange={handleChangeStartInput}
       />
       <TimeInput
         label="End"
@@ -39,7 +28,6 @@ export const StartEndWrapp = React.memo((props) => {
         value={endTimeVal}
         max={maxValEnd}
         min={minValEnd}
-        onChange={handleChangeEndInput}
       />
     </Styled.StartEndWrapper>
   );

@@ -44,7 +44,7 @@ export const updateChunkItemEnd = (id, itemEnd) => {
     payload: {
       id,
       itemEnd,
-    }
+    },
   };
 };
 export const updateChunkItemStart = (id, itemStart) => {
@@ -53,6 +53,6 @@ export const updateChunkItemStart = (id, itemStart) => {
     payload: {
       id,
       itemStart,
-    }
-  }
-}
+    },
+  };
+};

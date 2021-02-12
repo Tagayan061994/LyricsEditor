@@ -18,17 +18,17 @@
 // };
 
 export const parseSecondsToHms = (seconds) => {
-   let numParsedSec = Number(seconds);
-   const hourse = Math.floor(numParsedSec / 3600);
-   const minutes = Math.floor((numParsedSec % 3600) / 60);
-   const second = Math.floor((numParsedSec % 3600) % 60);
-   return (
-      ("0" + hourse).slice(-2) +
-      ":" +
-      ("0" + minutes).slice(-2) +
-      ":" +
-      ("0" + second).slice(-2)
-   );
+  let numParsedSec = Number(seconds);
+  const hourse = Math.floor(numParsedSec / 3600);
+  const minutes = Math.floor((numParsedSec % 3600) / 60);
+  const second = Math.floor((numParsedSec % 3600) % 60);
+  return (
+    ("0" + hourse).slice(-2) +
+    ":" +
+    ("0" + minutes).slice(-2) +
+    ":" +
+    ("0" + second).slice(-2)
+  );
 };
 
 /**
@@ -36,14 +36,15 @@ export const parseSecondsToHms = (seconds) => {
  * @param {*string} Hms e.g. 01:30:20
  */
 export const parseHmsToSeconds = (hms) => {
-   const [hours, minutes, seconds] = hms.split(":");
-   return hours * 60 * 60 + minutes * 60 + parseInt(seconds);
+  const [hours, minutes, seconds] = hms.split(":");
+  return hours * 60 * 60 + minutes * 60 + parseInt(seconds);
 };
 
 // Helpers wich were using in bottom component
 export const calcWhatPercent = (full, part) => (part * 100) / full;
 
-export const ParsePxTopercent = calcWhatPercent;
-export const ParseSecondToPercent = calcWhatPercent;
+export const parsePxTopercent = calcWhatPercent;
+export const parseSecondToPercent = calcWhatPercent;
 
-export const ParsePercentToSecond = (fullSecond, percent) => (fullSecond * percent) / 100;
+export const parsePercentToSecond = (fullSecond, percent) =>
+  (fullSecond * percent) / 100;

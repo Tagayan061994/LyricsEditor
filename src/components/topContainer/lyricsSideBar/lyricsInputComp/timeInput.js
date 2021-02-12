@@ -1,17 +1,16 @@
-import React, { useRef, useEffect, useCallback } from "react";
+import React, { useRef, useState, useLayoutEffect, useEffect } from "react";
 import * as Styled from "./style";
 import { connect } from "react-redux";
-import { useFocus } from "../../../../common/useFocus";
 import {
    updateChunkItemEnd,
    updateChunkItemStart,
 } from "../../../../redux/actions/audioActions";
 import { parseHmsToSeconds } from "../../../../common/parseHelpers.js";
+import { useEventListener } from "../../../../common/useEventListener";
 
 const TimeInput = React.memo((props) => {
    const {
       value,
-      onChange,
       label,
       max,
       min,
@@ -20,24 +19,37 @@ const TimeInput = React.memo((props) => {
       updateChunkItemStart,
    } = props;
    const inputRef = useRef();
-   const focused = useFocus(inputRef);
+   const [inputValue, setInputValue] = useState(value);
+   const [currentInput, setCurrentInput] = useState(null);
 
-   const updateInputValuInRedux = (inputId, inputValue) => {
+   useLayoutEffect(() => {
+      const ref = inputRef.current;
+      if (ref) {
+         setCurrentInput(ref);
+      }
+   }, [inputRef]);
+
+   const onInputChange = (e) => {
+      const value = e.target.value;
+      inputRef.current.value = value;
+      setInputValue(value);
+   };
+
+   const updateInputValuInRedux = () => {
       const inputValueInSeconds = parseHmsToSeconds(inputValue);
       if (label === "End") {
-         updateChunkItemEnd(inputId, inputValueInSeconds);
+         updateChunkItemEnd(id, inputValueInSeconds);
       } else if (label === "Start") {
-         updateChunkItemStart(inputId, inputValueInSeconds);
+         updateChunkItemStart(id, inputValueInSeconds);
       }
    };
 
-   const memoizedUpdate = useCallback(() => {
-      updateInputValuInRedux(id, value);
-   }, [id, value]);
-
    useEffect(() => {
-      memoizedUpdate();
-   }, [focused]);
+      setInputValue(value);
+   }, [value])
+
+   //dipatch action to change time value
+   useEventListener("blur", updateInputValuInRedux, currentInput);
 
    return (
       <>
@@ -47,9 +59,9 @@ const TimeInput = React.memo((props) => {
             type="time"
             max={max}
             min={min}
-            value={value}
+            value={inputValue}
             ref={inputRef}
-            onChange={onChange}
+            onChange={onInputChange}
          />
       </>
    );

@@ -2,8 +2,10 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const StyleSideBarWrapper = styled.div`
-  max-width: 243px;
-  max-height: 550px;
+  max-width: 270px;
+  width: 100%;
+  /* max-height: 550px; */
+  box-sizing: border-box;
   flex: 1 1 auto;
   background: #ffffff 0% 0% no-repeat padding-box;
   border-right: 1px solid rgba(112, 112, 112, 0.15);
@@ -13,6 +15,9 @@ export const StyleSideBarWrapper = styled.div`
   div + div {
     border-bottom: 1px solid rgba(112, 112, 112, 0.15);
     border-top: 1px solid rgba(112, 112, 112, 0.15);
+  }
+  &::-webkit-scrollbar {
+    display: none;
   }
 `;
 
