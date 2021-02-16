@@ -25,14 +25,14 @@ export const deleteItem = (draft, id) => {
 export const updateChunkEnd = (draft, obj) => {
   const chunk = getChunkById(draft.audioChunks, obj.id);
   if (chunk) {
-    chunk.end = obj.itemEnd;
+    chunk.end = chunk.end - obj.itemEnd;
   }
 };
 
 export const updateChunkStart = (draft, obj) => {
   const chunk = getChunkById(draft.audioChunks, obj.id);
   if (chunk) {
-    chunk.start = obj.itemStart;
+    chunk.start = chunk.start + obj.itemStart;
   }
 };
 

@@ -40,7 +40,6 @@ export const RangeCenter = React.memo((props) => {
       if (isOutOfBorder) {
         parentRef.current.style.left = offsetLeft + "px";
       }
-
     }
   };
 

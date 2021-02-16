@@ -1,10 +1,17 @@
 import React, { useState, useRef, useLayoutEffect, useContext } from "react";
 import * as Styled from "../style";
 import { connect } from "react-redux";
-import { getAudioDuration } from "../../../../redux/selectors";
 import { TimeLineWrappContext } from "../../../../contextApi/index.js";
-import { parsePercentToSecond } from "../../../../common/parseHelpers";
 import { useEventListener } from "../../../../common/useEventListener";
+import {
+  parsePercentToSecond,
+  parsePxTopercent,
+} from "../../../../common/parseHelpers";
+import {
+  getAudioDuration,
+  makeGetAudioChunkEndById,
+  makeGetPrevAudioChunkStartById,
+} from "../../../../redux/selectors";
 import {
   faChevronRight,
   faChevronLeft,
@@ -14,7 +21,7 @@ import {
   updateChunkItemStart,
 } from "../../../../redux/actions/audioActions";
 
-const iconInfo = [
+const iconData = [
   {
     comp: <Styled.Icon icon={faChevronRight} size="lg" />,
     side: "right",
@@ -26,25 +33,30 @@ const iconInfo = [
 ];
 
 const getCurrentKnob = (side) => {
-  return iconInfo.find((elem) => elem.side === side);
+  return iconData.find((elem) => elem.side === side);
 };
 
 const RangeKnob = React.memo((props) => {
   const {
+    id,
     parentRef,
     knobSide,
+    prevStart,
     fullDuration,
-    id,
+    nextChunkEnd,
     updateChunkItemEnd,
     updateChunkItemStart,
   } = props;
+
+  console.log("prevStart", prevStart, nextChunkEnd)
+
   const [currentKnob, setCurrentKnob] = useState(null);
-  const [resizeState, setResizeState] = useState({
-    isResizing: false,
-  });
+  const [isResize, setIsResize] = useState(false);
+
   const knobRef = useRef(null);
-  const refTimeLineWrapp = useContext(TimeLineWrappContext);
-  const TimeLineChunk = parentRef.current;
+  const refparentWrapper = useContext(TimeLineWrappContext);
+  const parentWrapper = refparentWrapper.current;
+  const timeLineChunk = parentRef.current;
 
   useLayoutEffect(() => {
     const ref = knobRef.current;
@@ -53,71 +65,85 @@ const RangeKnob = React.memo((props) => {
     }
   }, [knobRef]);
 
-  const onResizeMove = (e) => {
-    if (resizeState.isResizing) {
-      e.stopPropagation();
-      const parentClientWidth = TimeLineChunk.offsetParent.clientWidth;
-      const timeLineOffsetWidth = TimeLineChunk.offsetWidth;
-      const timeLineWidthToRight = timeLineOffsetWidth + e.movementX;
-      const timeLineWidthToLeft = timeLineOffsetWidth - e.movementX;
-      const timeLineOffset = TimeLineChunk.offsetLeft + e.movementX;
+  const calcToRightInPercent = (e, currWidth, parentWidth) => {
+    const moveRight = currWidth + e.movementX;
+    return parsePxTopercent(parentWidth, moveRight);
+  };
 
-      if (knobSide === "right" && timeLineWidthToRight < parentClientWidth) {
-        TimeLineChunk.style.width = timeLineWidthToRight + "px";
-      } else if (knobSide === "left" && timeLineOffset >= 0) {
-        TimeLineChunk.style.width = timeLineWidthToLeft + "px";
-        TimeLineChunk.style.left = timeLineOffset + "px";
+  const calcToLeftInPercent = (e, currWidth, parentWidth) => {
+    const moveLeft = currWidth - e.movementX;
+    return parsePxTopercent(parentWidth, moveLeft);
+  };
+
+  const calcTimeLineLeft = (e) => {
+    const timeLineClientWidth = timeLineChunk.offsetParent.clientWidth;
+    const timeLineOffset = timeLineChunk.offsetLeft + e.movementX;
+    return parsePxTopercent(timeLineClientWidth, timeLineOffset);
+  };
+
+  const reiseDrawToRight = (e, currWidth, parentWidth) => {
+    const chunkWidth = calcToRightInPercent(e, currWidth, parentWidth);
+    timeLineChunk.style.width = chunkWidth + "%";
+  };
+
+  const resizeDrawToLeft = (e, currWidth, parentWidth) => {
+    const leftInPercent = calcTimeLineLeft(e);
+    const chunkWidt = calcToLeftInPercent(e, currWidth, parentWidth);
+
+    timeLineChunk.style.width = chunkWidt + "%";
+    timeLineChunk.style.left = leftInPercent + "%";
+  };
+
+  const onResizeMove = (e) => {
+    if (isResize) {
+      e.stopPropagation();
+      const timeLineWidth = timeLineChunk.offsetWidth;
+      const parentWrappWidth = parentWrapper.offsetWidth;
+
+      if (knobSide === "right") {
+        reiseDrawToRight(e, timeLineWidth, parentWrappWidth);
+      } else if (knobSide === "left") {
+        resizeDrawToLeft(e, timeLineWidth, parentWrappWidth);
       }
     }
   };
 
   const onResizeStart = () => {
-    setResizeState({
-      isResizing: true,
-    });
+    setIsResize(true);
   };
 
   const updateChunkEndInRedux = () => {
-    const timeLineWrappWidth = refTimeLineWrapp.current.offsetWidth;
-    const timeLineWidthToLeft = parseInt(TimeLineChunk.style.width);
-    const ratioOfWidth = (timeLineWidthToLeft / timeLineWrappWidth) * 100;
+    const timeLineWidthToLeft = parseInt(timeLineChunk.style.width);
+    const currentWidthInPercent = parsePxTopercent(
+      parentWrapper.offsetWidth,
+      timeLineWidthToLeft
+    );
     const ratioOfWidtInSeconds = Math.round(
-      parsePercentToSecond(fullDuration, ratioOfWidth)
+      parsePercentToSecond(fullDuration, currentWidthInPercent)
     );
     updateChunkItemEnd(id, ratioOfWidtInSeconds);
   };
 
   ///just to check,its not finished version
   const updateChunkStartInRedux = () => {
-    const emptyChunkWidth = TimeLineChunk.offsetLeft;
-    const timeLineWrappWidth = refTimeLineWrapp.current.offsetWidth;
-    const updateChunkStartTime =
-      (emptyChunkWidth * fullDuration) / timeLineWrappWidth;
-    const updateChunkStartTimeInPerc = parsePercentToSecond(
-      fullDuration,
-      updateChunkStartTime
-    );
-    updateChunkItemStart(id, updateChunkStartTimeInPerc);
+    const emptyTimeLineWidth = timeLineChunk.offsetLeft;
+    const parentWidth = parentWrapper.offsetWidth;
+    const updateStartTime = (emptyTimeLineWidth * fullDuration) / parentWidth;
+    const chunkStart = parsePercentToSecond(fullDuration, updateStartTime);
+    updateChunkItemStart(id, chunkStart);
   };
 
   const onResizeEnd = () => {
-    if (knobSide === "right") {
-      updateChunkEndInRedux();
-    } else if (knobSide === "left") {
-      updateChunkStartInRedux();
-    }
-    setResizeState({
-      isResizing: false,
-    });
+    if (knobSide === "right") updateChunkEndInRedux();
+    else if (knobSide === "left") updateChunkStartInRedux();
+    setIsResize(false);
   };
 
   //Knob eventListeners
   useEventListener("mousedown", onResizeStart, currentKnob);
   useEventListener("mousemove", onResizeMove);
   useEventListener("mouseup", () => {
-    if (resizeState.isResizing) {
-      onResizeEnd();
-    }
+    if (isResize) onResizeEnd();
   });
 
   return (
@@ -127,44 +153,22 @@ const RangeKnob = React.memo((props) => {
   );
 });
 
-//redux connect
-const mapStateToProps = (state) => ({
-  fullDuration: getAudioDuration(state),
-});
-export default connect(mapStateToProps, {
+//connecting to Redux Store
+const makeMapStateToProps = () => {
+  const getAudioChunkEndById = makeGetAudioChunkEndById();
+  const getAudioChunkStartById = makeGetPrevAudioChunkStartById();
+
+  const mapStateToProps = (state, props) => {
+    return {
+      fullDuration: getAudioDuration(state),
+      prevStart: getAudioChunkStartById(state, props),
+      nextChunkEnd: getAudioChunkEndById(state, props),
+    };
+  };
+  return mapStateToProps;
+};
+
+export default connect(makeMapStateToProps, {
   updateChunkItemEnd,
   updateChunkItemStart,
 })(RangeKnob);
-
-const arr = [2, 5, 8, 7];
-
-const deleteElemntFromMatrix = (arr, index) =>
-  index !== undefined ? arr.splice(index, 1) : arr;
-
-const findMax = (maxValue, arr) => {
-  let maxIndex = -1;
-  for (let i = 0; i < arr.length; i++) {
-    if ((maxIndex === -1 || arr[i] > arr[maxIndex]) && arr[i] < maxValue) {
-      maxIndex = i;
-    }
-  }
-  return maxIndex;
-};
-
-const hourIndex1 = findMax(3, arr);
-const hour1 = arr[hourIndex1];
-deleteElemntFromMatrix(arr, hourIndex1);
-
-const hourIndex2 = findMax(5, arr);
-const hour2 = arr[hourIndex2] || 0;
-deleteElemntFromMatrix(arr, findMax(5, arr));
-
-const minIndex1 = findMax(7, arr);
-const min1 = arr[minIndex1] || 0;
-deleteElemntFromMatrix(arr, minIndex1);
-
-const minIndex2 = findMax(10, arr);
-const min2 = arr[minIndex2] || 0;
-
-console.log(`${hour1}${hour2}:${min1}${min2}`);
-console.log(arr);

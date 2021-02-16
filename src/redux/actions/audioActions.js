@@ -11,6 +11,13 @@ export const getAudioChunks = () => {
   };
 };
 
+export const getPrevAudioChunk = (chunkId) => {
+  return {
+    type: "GET_PREV_AUDIO_CHUNK",
+    payload: chunkId
+  }
+}
+
 export const addAudioChunksItem = (item) => {
   return {
     type: "ADD_AUDIO_CHUNKS_ITEM",
