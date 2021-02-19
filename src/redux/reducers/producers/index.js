@@ -17,22 +17,27 @@ const getChunkById = (chunks, id) => {
   return chunks.find((chunk) => chunk.id === id);
 };
 
+const getChunkIndexById = (chunks, id) => {
+  return chunks.findIndex((chunk) => chunk.id === id);
+};
+
+
 export const deleteItem = (draft, id) => {
-  const chunk = getChunkById(draft.audioChunks, id);
-  draft.audioChunks.splice(chunk, 1);
+  const chunkIndex = getChunkIndexById(draft.audioChunks, id);
+  draft.audioChunks.splice(chunkIndex, 1);
 };
 
 export const updateChunkEnd = (draft, obj) => {
   const chunk = getChunkById(draft.audioChunks, obj.id);
   if (chunk) {
-    chunk.end = chunk.end - obj.itemEnd;
+    chunk.end = obj.itemEnd;
   }
 };
 
 export const updateChunkStart = (draft, obj) => {
   const chunk = getChunkById(draft.audioChunks, obj.id);
   if (chunk) {
-    chunk.start = chunk.start + obj.itemStart;
+    chunk.start = obj.itemStart;
   }
 };
 

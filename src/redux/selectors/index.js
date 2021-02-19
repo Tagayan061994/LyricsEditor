@@ -10,14 +10,28 @@ export const getAudioChunks = createSelector(
   (audioConfigs) => audioConfigs.audioChunks
 );
 
-export const getPrevAudioChunkStartById = (state, props) => {
+export const getImgOriginWidth = createSelector(
+  getAudioConfigs,
+  (audioConfigs) => audioConfigs.canvasWidth
+);
+
+export const getImgOriginHeight = createSelector(
+  getAudioConfigs,
+  (audioConfigs) => audioConfigs.canvasHeight
+);
+
+export const getPrevAudioChunkEndById = (state, id) => {
   const audioChunks = getAudioChunks(state);
-  return props.id - 1 && audioChunks.find((chunk) => chunk.id === props.id - 1);
+  if (id - 1 > 0) {
+    return audioChunks.find((chunk) => chunk.id === id - 1);
+  }
 };
 
-export const getNextAudioChunkEndById = (state, props) => {
+export const getNextAudioChunkStartById = (state, id) => {
   const audioChunks = getAudioChunks(state);
-  return props.id + 1 && audioChunks.find((chunk) => chunk.id === props.id + 1);
+  if (id + 1 < audioChunks[audioChunks.length - 1].id) {
+    return audioChunks.find((chunk) => chunk.id === id + 1);
+  }
 };
 
 export const getImgUrl = createSelector(
@@ -35,10 +49,16 @@ export const getAudioDuration = createSelector(
   (audioConfigs) => audioConfigs.duration
 );
 
-export const makeGetPrevAudioChunkStartById = () => {
-  return createSelector(getPrevAudioChunkStartById, (chunk) => chunk && chunk.start);
+export const makeGetPrevAudioChunkEndById = () => {
+  return createSelector(
+    getPrevAudioChunkEndById,
+    (chunk) => chunk && chunk.end
+  );
 };
 
-export const makeGetAudioChunkEndById = () => {
-  return createSelector(getNextAudioChunkEndById, (chunk) => chunk && chunk.end);
+export const makeGetAudioChunkStartById = () => {
+  return createSelector(
+    getNextAudioChunkStartById,
+    (chunk) => chunk && chunk.start
+  );
 };

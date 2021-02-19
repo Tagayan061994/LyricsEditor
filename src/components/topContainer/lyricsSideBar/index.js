@@ -7,7 +7,7 @@ import { getAudioChunks, getAudioDuration } from "../../../redux/selectors";
 
 const SubTitleSideBar = React.memo((props) => {
   const { chunksData, fullDuration, addAudioChunksItem } = props;
-  const lastChunkIndex = chunksData[chunksData.length - 1]
+  const lastChunkIndex = chunksData[chunksData.length - 1];
   const lastChunkEndTime = lastChunkIndex.end;
 
   return (

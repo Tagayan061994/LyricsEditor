@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const MainVideoWrapper = styled.div`
   flex-basis: 57%;
-  /* padding: 0.5px; */
-  transform: scale(0.8);
+  padding: 0.5px;
+  transform: ${(props) => props.scale && `scale${props.scale}`};
   flex: 2;
   background: transparent
     radial-gradient(closest-side at 30% 41%, #ffffff 0%, #eef5ff 100%) 0% 0%
@@ -11,7 +11,7 @@ export const MainVideoWrapper = styled.div`
 `;
 
 export const VideoBaner = styled.div`
-  padding-top:60%;
+  padding-top: 60%;
   background-image: url("https://blog.studentlifenetwork.com/wp-content/uploads/2019/05/augustin-de-montesquiou-346174-unsplash-670x447.jpg");
   background-repeat: no-repeat;
   background-size: cover;

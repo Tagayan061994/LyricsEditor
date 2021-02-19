@@ -1,13 +1,35 @@
 import React, { useState, useRef, useLayoutEffect, useMemo } from "react";
 import * as Styled from "../style";
-import RangeKnob from "./rangeKnob";
+import { RangeKnob } from "./rangeKnob";
 import { RangeCenter } from "./rangeCenter";
 import { parseSecondToPercent } from "../../../../common/parseHelpers";
+import { connect } from "react-redux";
+import { TimeLineWrappContext } from "../../../../contextApi/index.js";
+import {
+  getAudioDuration,
+  makeGetAudioChunkStartById,
+  makeGetPrevAudioChunkEndById,
+} from "../../../../redux/selectors";
+import {
+  updateChunkItemEnd,
+  updateChunkItemStart,
+} from "../../../../redux/actions/audioActions";
 
-export const RangeDrag = React.memo(({ data, fullDuration, refWrapp }) => {
+const RangeDrag = React.memo((props) => {
+  const {
+    data,
+    refWrapp,
+    prevEnd,
+    nextStart,
+    fullDuration,
+    updateChunkItemEnd,
+    updateChunkItemStart
+  } = props;
   const { start, end, id } = data;
   const containerRef = useRef(null);
   const [currentRelativeRef, setcurrentRelativeRef] = useState(null);
+
+  // console.log(id)
 
   useLayoutEffect(() => {
     const refRelative = containerRef.current;
@@ -32,13 +54,46 @@ export const RangeDrag = React.memo(({ data, fullDuration, refWrapp }) => {
       leftInPercentage={leftInPercentage}
     >
       <RangeKnob
-        parentRef={containerRef}
         knobSide="left"
         id={id}
         refWrapp={refWrapp}
+        prevEnd={prevEnd}
+        nextStart={nextStart}
+        parentRef={containerRef}
+        fullDuration={fullDuration}
+        updateChunkItemEnd={updateChunkItemEnd}
+        updateChunkItemStart={updateChunkItemStart}
       />
       <RangeCenter parentRef={containerRef} />
-      <RangeKnob parentRef={containerRef} knobSide="right" id={id} />
+      <RangeKnob
+        knobSide="right"
+        id={id}
+        refWrapp={refWrapp}
+        prevEnd={prevEnd}
+        nextStart={nextStart}
+        parentRef={containerRef}
+        fullDuration={fullDuration}
+        updateChunkItemEnd={updateChunkItemEnd}
+        updateChunkItemStart={updateChunkItemStart}
+      />
     </Styled.RangeContainer>
   );
 });
+
+//connecting to Redux Store
+const makeMapStateToProps = () => {
+  const getAudioChunkStartById = makeGetAudioChunkStartById();
+  const getAudioChunkEndById = makeGetPrevAudioChunkEndById();
+  const mapStateToProps = (state, props) => {
+    return {
+      fullDuration: getAudioDuration(state),
+      prevEnd: getAudioChunkEndById(state, props.data.id),
+      nextChunkStart: getAudioChunkStartById(state, props.data.id),
+    };
+  };
+  return mapStateToProps;
+};
+export default connect(makeMapStateToProps, {
+  updateChunkItemEnd,
+  updateChunkItemStart,
+})(RangeDrag);

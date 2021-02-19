@@ -20,7 +20,7 @@ const LyricsInputWrapper = React.memo(({ data, deleteAudioChunksItem }) => {
 
   const deleteItem = () => {
     deleteAudioChunksItem(id);
-  };
+  }
 
   return (
     <Styled.LyricsInputWrapper>

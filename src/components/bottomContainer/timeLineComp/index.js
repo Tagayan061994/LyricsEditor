@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import * as Styled from "./style";
 import { connect } from "react-redux";
-import { RangeDrag } from "./RangeComp";
+import RangeDrag from "./RangeComp";
 import { TimeLineWrappContext } from "../../../contextApi/index";
 import { getAudioChunks, getAudioDuration } from "../../../redux/selectors";
 
@@ -11,16 +11,16 @@ const TimeLine = React.memo((props) => {
 
   return (
     <Styled.TimeLineWrapper ref={refWrapp}>
-      <TimeLineWrappContext.Provider value={refWrapp}>
-        {chunkData.map((data) => (
-          <RangeDrag
-            data={data}
-            key={data.id}
-            refWrapp={refWrapp}
-            fullDuration={fullDuration}
-          />
-        ))}
-      </TimeLineWrappContext.Provider>
+      {/* <TimeLineWrappContext.Provider value={refWrapp}> */}
+      {chunkData.map((data) => (
+        <RangeDrag
+          data={data}
+          key={data.id}
+          refWrapp={refWrapp}
+          fullDuration={fullDuration}
+        />
+      ))}
+      {/* </TimeLineWrappContext.Provider> */}
     </Styled.TimeLineWrapper>
   );
 });

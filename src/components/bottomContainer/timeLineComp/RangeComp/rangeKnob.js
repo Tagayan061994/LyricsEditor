@@ -1,25 +1,27 @@
-import React, { useState, useRef, useLayoutEffect, useContext } from "react";
+import React, { useState, useRef, useLayoutEffect, useContext, useEffect } from "react";
 import * as Styled from "../style";
-import { connect } from "react-redux";
-import { TimeLineWrappContext } from "../../../../contextApi/index.js";
+// import { connect } from "react-redux";
+// import { TimeLineWrappContext } from "../../../../contextApi/index.js";
 import { useEventListener } from "../../../../common/useEventListener";
 import {
+  parseSecondToPercent,
   parsePercentToSecond,
   parsePxTopercent,
 } from "../../../../common/parseHelpers";
-import {
-  getAudioDuration,
-  makeGetAudioChunkEndById,
-  makeGetPrevAudioChunkStartById,
-} from "../../../../redux/selectors";
+// import {
+//   getAudioDuration,
+//   makeGetAudioChunkStartById,
+//   makeGetPrevAudioChunkEndById,
+// } from "../../../../redux/selectors";
 import {
   faChevronRight,
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  updateChunkItemEnd,
-  updateChunkItemStart,
-} from "../../../../redux/actions/audioActions";
+// import {
+//   updateChunkItemEnd,
+//   updateChunkItemStart,
+// } from "../../../../redux/actions/audioActions";
+const FULL_PERCENT = 100;
 
 const iconData = [
   {
@@ -31,39 +33,50 @@ const iconData = [
     side: "left",
   },
 ];
-
 const getCurrentKnob = (side) => {
   return iconData.find((elem) => elem.side === side);
 };
 
-const RangeKnob = React.memo((props) => {
+export const RangeKnob = React.memo((props) => {
   const {
     id,
-    parentRef,
+    prevEnd,
+    refWrapp,
     knobSide,
-    prevStart,
+    parentRef,
     fullDuration,
-    nextChunkEnd,
+    nextChunkStart,
     updateChunkItemEnd,
     updateChunkItemStart,
   } = props;
 
-  console.log("prevStart", prevStart, nextChunkEnd)
 
-  const [currentKnob, setCurrentKnob] = useState(null);
-  const [isResize, setIsResize] = useState(false);
 
   const knobRef = useRef(null);
-  const refparentWrapper = useContext(TimeLineWrappContext);
-  const parentWrapper = refparentWrapper.current;
+  const [isResize, setIsResize] = useState(false);
+  const [currentKnob, setCurrentKnob] = useState(null);
+  const refParentWrapper = refWrapp
+
+  console.log("id", id);
+  console.log("previuos end", prevEnd);
+  console.log("next chunk start", nextChunkStart);
+
+  //refs to parent element as parentWrapper
+  //refs to current timline chunk as timeLineChunk
+  const parentWrapper = refParentWrapper.current;
   const timeLineChunk = parentRef.current;
 
+  // set ref to current Knob after rendering component
   useLayoutEffect(() => {
     const ref = knobRef.current;
     if (ref) {
       setCurrentKnob(ref);
     }
   }, [knobRef]);
+
+  useEffect(() => {
+    console.log(nextChunkStart)
+  }, [nextChunkStart])
 
   const calcToRightInPercent = (e, currWidth, parentWidth) => {
     const moveRight = currWidth + e.movementX;
@@ -76,22 +89,58 @@ const RangeKnob = React.memo((props) => {
   };
 
   const calcTimeLineLeft = (e) => {
-    const timeLineClientWidth = timeLineChunk.offsetParent.clientWidth;
+    const parentWrpClientWidth = parentWrapper.clientWidth;
     const timeLineOffset = timeLineChunk.offsetLeft + e.movementX;
-    return parsePxTopercent(timeLineClientWidth, timeLineOffset);
+    return parsePxTopercent(parentWrpClientWidth, timeLineOffset);
   };
 
-  const reiseDrawToRight = (e, currWidth, parentWidth) => {
+  const isValidResizeToRight = (elem) => {
+    if (prevEnd) {
+      const prevElLeft = parseSecondToPercent(fullDuration, prevEnd);
+      if (elem < FULL_PERCENT - prevElLeft) return true;
+      else return false;
+    } else if (!prevEnd) {
+      if (elem <= FULL_PERCENT) return true;
+      else return false;
+    }
+  };
+
+  const isValidResizeToLeft = (elem) => {
+    if (nextChunkStart) {
+      const nextChunkInPerc = parseSecondToPercent(
+        fullDuration,
+        nextChunkStart
+      );
+      if (elem < nextChunkInPerc) return true;
+      else return false;
+    } else if (!nextChunkStart && prevEnd) {
+      //check previsous element width + currWidth ,
+      // not to be greater then all parent width
+      const prevElLeft = parseSecondToPercent(fullDuration, prevEnd);
+      if (prevElLeft + elem < FULL_PERCENT) return true;
+      else return false;
+    } else if (!nextChunkStart && !prevEnd) {
+      if (elem < FULL_PERCENT) return true;
+      else return false;
+    }
+  };
+
+  const resizeDrawToRight = (e, currWidth, parentWidth) => {
     const chunkWidth = calcToRightInPercent(e, currWidth, parentWidth);
-    timeLineChunk.style.width = chunkWidth + "%";
+    const validResize = isValidResizeToLeft(chunkWidth);
+    if (validResize) {
+      timeLineChunk.style.width = chunkWidth + "%";
+    }
   };
 
   const resizeDrawToLeft = (e, currWidth, parentWidth) => {
     const leftInPercent = calcTimeLineLeft(e);
-    const chunkWidt = calcToLeftInPercent(e, currWidth, parentWidth);
-
-    timeLineChunk.style.width = chunkWidt + "%";
-    timeLineChunk.style.left = leftInPercent + "%";
+    const chunkWidth = calcToLeftInPercent(e, currWidth, parentWidth);
+    const validResize = isValidResizeToRight(chunkWidth);
+    if (validResize) {
+      timeLineChunk.style.width = chunkWidth + "%";
+      timeLineChunk.style.left = leftInPercent + "%";
+    }
   };
 
   const onResizeMove = (e) => {
@@ -101,7 +150,7 @@ const RangeKnob = React.memo((props) => {
       const parentWrappWidth = parentWrapper.offsetWidth;
 
       if (knobSide === "right") {
-        reiseDrawToRight(e, timeLineWidth, parentWrappWidth);
+        resizeDrawToRight(e, timeLineWidth, parentWrappWidth);
       } else if (knobSide === "left") {
         resizeDrawToLeft(e, timeLineWidth, parentWrappWidth);
       }
@@ -113,29 +162,26 @@ const RangeKnob = React.memo((props) => {
   };
 
   const updateChunkEndInRedux = () => {
-    const timeLineWidthToLeft = parseInt(timeLineChunk.style.width);
-    const currentWidthInPercent = parsePxTopercent(
-      parentWrapper.offsetWidth,
-      timeLineWidthToLeft
+    const timeLineWidth = parseInt(timeLineChunk.style.width);
+    const widthInSeconds = Math.round(
+      parsePercentToSecond(fullDuration, timeLineWidth)
     );
-    const ratioOfWidtInSeconds = Math.round(
-      parsePercentToSecond(fullDuration, currentWidthInPercent)
-    );
-    updateChunkItemEnd(id, ratioOfWidtInSeconds);
+    updateChunkItemEnd(id, widthInSeconds);
   };
 
   ///just to check,its not finished version
   const updateChunkStartInRedux = () => {
-    const emptyTimeLineWidth = timeLineChunk.offsetLeft;
-    const parentWidth = parentWrapper.offsetWidth;
-    const updateStartTime = (emptyTimeLineWidth * fullDuration) / parentWidth;
-    const chunkStart = parsePercentToSecond(fullDuration, updateStartTime);
-    updateChunkItemStart(id, chunkStart);
+    const emptyTimeLineWidth = parseFloat(timeLineChunk.style.left);
+    const updateStartTime = (emptyTimeLineWidth * fullDuration) / FULL_PERCENT;
+    updateChunkItemStart(id, updateStartTime);
   };
 
   const onResizeEnd = () => {
-    if (knobSide === "right") updateChunkEndInRedux();
-    else if (knobSide === "left") updateChunkStartInRedux();
+    if (knobSide === "right") {
+      updateChunkEndInRedux()
+    } else if (knobSide === "left") {
+      updateChunkStartInRedux();
+    }
     setIsResize(false);
   };
 
@@ -153,22 +199,4 @@ const RangeKnob = React.memo((props) => {
   );
 });
 
-//connecting to Redux Store
-const makeMapStateToProps = () => {
-  const getAudioChunkEndById = makeGetAudioChunkEndById();
-  const getAudioChunkStartById = makeGetPrevAudioChunkStartById();
 
-  const mapStateToProps = (state, props) => {
-    return {
-      fullDuration: getAudioDuration(state),
-      prevStart: getAudioChunkStartById(state, props),
-      nextChunkEnd: getAudioChunkEndById(state, props),
-    };
-  };
-  return mapStateToProps;
-};
-
-export default connect(makeMapStateToProps, {
-  updateChunkItemEnd,
-  updateChunkItemStart,
-})(RangeKnob);
