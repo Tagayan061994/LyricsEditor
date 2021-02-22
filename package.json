@@ -47,6 +47,7 @@
     ]
   },
   "devDependencies": {
-    "flow-bin": "^0.144.0"
+    "flow-bin": "^0.144.0",
+    "resize-observer-polyfill": "^1.5.1"
   }
 }

@@ -57,9 +57,9 @@ export const RangeKnob = React.memo((props) => {
   const [currentKnob, setCurrentKnob] = useState(null);
   const refParentWrapper = refWrapp
 
-  console.log("id", id);
-  console.log("previuos end", prevEnd);
-  console.log("next chunk start", nextChunkStart);
+  // console.log("id", id);
+  // console.log("previuos end", prevEnd);
+  // console.log("next chunk start", nextChunkStart);
 
   //refs to parent element as parentWrapper
   //refs to current timline chunk as timeLineChunk

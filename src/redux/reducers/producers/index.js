@@ -21,7 +21,6 @@ const getChunkIndexById = (chunks, id) => {
   return chunks.findIndex((chunk) => chunk.id === id);
 };
 
-
 export const deleteItem = (draft, id) => {
   const chunkIndex = getChunkIndexById(draft.audioChunks, id);
   draft.audioChunks.splice(chunkIndex, 1);

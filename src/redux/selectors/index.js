@@ -5,6 +5,10 @@ export const getAudioConfigs = createSelector(getStore, (state) => {
   return state.audioConfigs;
 });
 
+export const getCurrentActiveId = createSelector(getStore, (state) => {
+  return state.currentActiveId;
+});
+
 export const getAudioChunks = createSelector(
   getAudioConfigs,
   (audioConfigs) => audioConfigs.audioChunks
@@ -20,18 +24,21 @@ export const getImgOriginHeight = createSelector(
   (audioConfigs) => audioConfigs.canvasHeight
 );
 
-export const getPrevAudioChunkEndById = (state, id) => {
+export const getPrevAudioChunkEndById = (state) => {
+  const id = getCurrentActiveId(state)
   const audioChunks = getAudioChunks(state);
-  if (id - 1 > 0) {
+  // if (id - 1 > 0) {
     return audioChunks.find((chunk) => chunk.id === id - 1);
-  }
+  // }
 };
 
-export const getNextAudioChunkStartById = (state, id) => {
+export const getNextAudioChunkStartById = (state) => {
+  // console.log("current id >>>", getCurrentActiveId(state));
+  const id = getCurrentActiveId(state)
   const audioChunks = getAudioChunks(state);
-  if (id + 1 < audioChunks[audioChunks.length - 1].id) {
-    return audioChunks.find((chunk) => chunk.id === id + 1);
-  }
+  // if (id + 1 < audioChunks[audioChunks.length - 1].id) {
+  return audioChunks.find((chunk) => chunk.id === id + 1);
+  // }
 };
 
 export const getImgUrl = createSelector(

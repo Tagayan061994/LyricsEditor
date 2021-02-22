@@ -1,12 +1,12 @@
 import React, { useState, useRef, useLayoutEffect, useMemo } from "react";
 import * as Styled from "../style";
-import { RangeKnob } from "./rangeKnob";
+// import RangeKnob from "./rangeKnob";
 import { RangeCenter } from "./rangeCenter";
 import { parseSecondToPercent } from "../../../../common/parseHelpers";
 import { connect } from "react-redux";
-import { TimeLineWrappContext } from "../../../../contextApi/index.js";
 import {
   getAudioDuration,
+  getCurrentActiveId,
   makeGetAudioChunkStartById,
   makeGetPrevAudioChunkEndById,
 } from "../../../../redux/selectors";
@@ -14,22 +14,26 @@ import {
   updateChunkItemEnd,
   updateChunkItemStart,
 } from "../../../../redux/actions/audioActions";
+import { setCurrentActiveId } from "../../../../redux/actions/currIdAction";
+import { LeftKnob } from "./leftKnob/index";
+import { RightKnob } from "./rightKnob/index";
 
 const RangeDrag = React.memo((props) => {
   const {
     data,
-    refWrapp,
+    // refWrapp,
+    activeId,
     prevEnd,
-    nextStart,
+    nextChunkStart,
     fullDuration,
     updateChunkItemEnd,
-    updateChunkItemStart
+    updateChunkItemStart,
+    setCurrentActiveId,
   } = props;
+
   const { start, end, id } = data;
   const containerRef = useRef(null);
   const [currentRelativeRef, setcurrentRelativeRef] = useState(null);
-
-  // console.log(id)
 
   useLayoutEffect(() => {
     const refRelative = containerRef.current;
@@ -53,27 +57,27 @@ const RangeDrag = React.memo((props) => {
       withInPercent={withInPercentage}
       leftInPercentage={leftInPercentage}
     >
-      <RangeKnob
-        knobSide="left"
+      <LeftKnob
         id={id}
-        refWrapp={refWrapp}
         prevEnd={prevEnd}
-        nextStart={nextStart}
+        activeId={activeId}
         parentRef={containerRef}
         fullDuration={fullDuration}
+        nextChunkStart={nextChunkStart}
         updateChunkItemEnd={updateChunkItemEnd}
+        setCurrentActiveId={setCurrentActiveId}
         updateChunkItemStart={updateChunkItemStart}
       />
       <RangeCenter parentRef={containerRef} />
-      <RangeKnob
-        knobSide="right"
+      <RightKnob
         id={id}
-        refWrapp={refWrapp}
         prevEnd={prevEnd}
-        nextStart={nextStart}
+        activeId={activeId}
         parentRef={containerRef}
         fullDuration={fullDuration}
+        nextChunkStart={nextChunkStart}
         updateChunkItemEnd={updateChunkItemEnd}
+        setCurrentActiveId={setCurrentActiveId}
         updateChunkItemStart={updateChunkItemStart}
       />
     </Styled.RangeContainer>
@@ -87,8 +91,9 @@ const makeMapStateToProps = () => {
   const mapStateToProps = (state, props) => {
     return {
       fullDuration: getAudioDuration(state),
-      prevEnd: getAudioChunkEndById(state, props.data.id),
-      nextChunkStart: getAudioChunkStartById(state, props.data.id),
+      prevEnd: getAudioChunkEndById(state),
+      nextChunkStart: getAudioChunkStartById(state),
+      activeId: getCurrentActiveId(state),
     };
   };
   return mapStateToProps;
@@ -96,4 +101,5 @@ const makeMapStateToProps = () => {
 export default connect(makeMapStateToProps, {
   updateChunkItemEnd,
   updateChunkItemStart,
+  setCurrentActiveId,
 })(RangeDrag);

@@ -2,21 +2,25 @@ import React, { useRef, useState, useEffect } from "react";
 import * as Styled from "./style";
 import { connect } from "react-redux";
 import { getImgOriginWidth, getImgOriginHeight } from "../../../redux/selectors";
+import useResizeObserver from '../../../common/useResizeObserver';
 
 const MainVideoBar = React.memo((props) => {
     const { imgOriginWidth, imgOriginHeight } = props;
-    const ref = useRef(null)
+    // const ref = useRef(null)
+    const [ref, entry] = useResizeObserver();
     const [scalRatio, setScalRatio] = useState(null)
+
+    console.log("ref", ref.current)
 
     const calcScale = (originHeight, originWidth, currHeight, currWidth) => {
         return Math.min(currWidth / originWidth, currHeight / originHeight)
     }
 
     useEffect(() => {
-        const canvasWidth = ref.current.offsetWidth
-        const canvasHeight = ref.current.offsetHeight
-        const scale = calcScale(canvasHeight, canvasWidth, imgOriginWidth, imgOriginHeight);
-        setScalRatio(scale)
+        // const canvasWidth = ref.current.offsetWidth
+        // const canvasHeight = ref.current.offsetHeight
+        // const scale = calcScale(canvasHeight, canvasWidth, imgOriginWidth, imgOriginHeight);
+        // setScalRatio(scale)
     }, [imgOriginHeight, imgOriginWidth])
 
     return (
